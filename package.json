@@ -1,0 +1,26 @@
+{
+  "name": "bihands-back-end",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Acutis Tecnologia",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0",
+    "sucrase": "^3.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0"
+  }
+}
