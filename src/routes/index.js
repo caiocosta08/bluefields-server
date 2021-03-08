@@ -3,8 +3,9 @@ import { Router } from 'express';
 import shopRoutes from './shop';
 import addressRoutes from './address';
 
-import UserSessionController from '../app/controllers/sessions/UserSessionController';
+import ShopSessionController from '../app/controllers/sessions/ShopSessionController';
 import ShopController from '../app/controllers/ShopController';
+import ShopSessionController from '../app/controllers/sessions/ShopSessionController';
 
 
 const routes = new Router();
@@ -13,7 +14,7 @@ const routes = new Router();
 routes.post('/register', ShopController.store);
 
 // User session
-routes.post('/session', UserSessionController.store);
+routes.post('/session', ShopSessionController.store);
 
 routes.use('/shop', shopRoutes);
 routes.use('/address', addressRoutes);
