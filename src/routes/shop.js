@@ -10,8 +10,9 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/', ShopController.index);
-routes.get('/:id', ShopController.show);
-routes.put('/:id', ShopController.update);
+routes.post('/register', ShopController.store);
+routes.get('/shop-data', ShopController.show);
+routes.put('/update', ShopController.update);
 routes.delete('/:id', ShopController.destroy);
 
 export default routes;

@@ -5,7 +5,7 @@ class Address extends Model {
   static init(sequelize){
     super.init({
       zip_code: Sequelize.STRING,
-      uf: Sequelize.STRING,
+      state: Sequelize.STRING,
       city: Sequelize.STRING,
       street: Sequelize.STRING,
       complement: Sequelize.STRING,
@@ -14,7 +14,7 @@ class Address extends Model {
     },
     {
       sequelize,
-      tableName: "shop_addresses",
+      tableName: "addresses",
     });
     return this;
   }

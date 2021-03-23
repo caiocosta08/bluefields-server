@@ -10,8 +10,8 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/', UserController.index);
-routes.get('/:id', UserController.show);
-routes.put('/:id', UserController.update);
+routes.get('/data', UserController.show);
+routes.put('/update', UserController.update);
 routes.delete('/:id', UserController.destroy);
 
 export default routes;

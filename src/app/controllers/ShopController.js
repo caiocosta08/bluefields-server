@@ -1,4 +1,3 @@
-import { generateToken } from '../../utils/auth';
 import Shop from '../models/Shop';
 
 class ShopController{
@@ -8,13 +7,15 @@ class ShopController{
       const shops = await Shop.findAll(
         {
           include: [
-            { association: 'addresses' },
+            { association: 'address' },
+            { association: 'owner' },
           ]
         }
       );
 
       return res.json(shops)
     }catch(err){
+      console.log(err)
       return res.status(400).json({ 
         error: 'Error loading shops',
         message: err
@@ -23,16 +24,18 @@ class ShopController{
   }
 
   async show(req, res){
-    const id = req.params.id;
 
     try{
-        const shop = await  Shop.findByPk(id, 
+        const shop = await Shop.findAll(
           {
+            where: { owner_id: req.userId }, 
             include: [
-              { association: 'shop_adresses' },
+              { association: 'address' },
+              { association: 'owner' },
             ]
           }
-        )
+        );
+        
 
         if(!shop){
             return res.status(401).json({ error: 'shop not found.'})
@@ -40,6 +43,7 @@ class ShopController{
 
         return res.json(shop);
     }catch(err){
+        console.log(err)
         return res.status(401).json({ error: 'Error loading shop. '});
     }
   }
@@ -47,7 +51,7 @@ class ShopController{
   async store(req, res){
 
     try{
-      const { email } =  req.body;
+      const { email, shop_url, cpf_cnpj } =  req.body;
 
       const shopExists = await Shop.findOne( {where: { email }});
   
@@ -55,7 +59,19 @@ class ShopController{
         return res.status(400).json({ error: 'Email already exists.'})
       }
 
-      req.body.credit = 0;
+      const urlExists = await Shop.findOne( {where: { shop_url }});
+  
+      if(urlExists){
+        return res.status(400).json({ error: 'Shop URL already exists.'})
+      }
+
+      const CPF_or_CNPJ_Exists = await Shop.findOne( {where: { cpf_cnpj }});
+  
+      if(CPF_or_CNPJ_Exists){
+        return res.status(400).json({ error: 'CPF/CNPJ already exists.'})
+      }
+
+      req.body.owner_id = req.userId;
       
       const shop = await Shop.create(req.body);
   
@@ -63,8 +79,7 @@ class ShopController{
       shop.password_hash = undefined;
   
       return res.json({
-        shop,
-        token: generateToken({ id: shop.id })
+        shop
       })
 
     }catch(err){

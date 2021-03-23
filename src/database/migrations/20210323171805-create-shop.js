@@ -8,42 +8,54 @@ module.exports = {
         primaryKey: true
       },
 
-      email: {
+      shop_name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
-      },
-
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-
-      cpf_cnpj: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        unique: true
-      },
-
-      banner: {
-        type: Sequelize.STRING,
-        allowNull: true,
       },
 
       instagram: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
 
-      shop_name: {
+      logo: {
         type: Sequelize.STRING,
       },
 
-      shop_description : {
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
+      },
+
+      banner: {
         type: Sequelize.STRING,
       },
 
-      shop_url : {
+      shop_url: {
         type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+
+      description: {
+        type: Sequelize.STRING,
+      },
+
+      cpf_cnpj: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+
+      owner_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references:{
+          model: 'users',
+          key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL'
+        },
       },
 
       phone:{

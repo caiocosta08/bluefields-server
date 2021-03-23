@@ -2,22 +2,23 @@ import { Router } from 'express';
 
 import shopRoutes from './shop';
 import addressRoutes from './address';
+import userRoutes from './user';
 
-import ShopSessionController from '../app/controllers/sessions/ShopSessionController';
-import ShopController from '../app/controllers/ShopController';
-import ShopSessionController from '../app/controllers/sessions/ShopSessionController';
+import UserSessionController from '../app/controllers/sessions/UserSessionController';
+import UserController from '../app/controllers/UserController';
 
 
 const routes = new Router();
 
 //User register
-routes.post('/register', ShopController.store);
+routes.post('/register/user',UserController.store);
 
 // User session
-routes.post('/session', ShopSessionController.store);
+routes.post('/session', UserSessionController.store);
 
 routes.use('/shop', shopRoutes);
 routes.use('/address', addressRoutes);
+routes.use('/user', userRoutes);
 
 
 

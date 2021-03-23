@@ -1,5 +1,6 @@
 import { generateToken } from '../../utils/auth';
 import User from '../models/User';
+import Shop from '../models/Shop'
 
 class UserController{
 
@@ -8,7 +9,7 @@ class UserController{
       const users = await User.findAll(
         {
           include: [
-            { association: 'capture_forms' },
+            { association: 'shop' },
           ]
         }
       );
@@ -23,23 +24,37 @@ class UserController{
   }
 
   async show(req, res){
-    const id = req.params.id;
 
     try{
-        const user = await  User.findByPk(id, 
+        const user = await  User.findOne( 
           {
+            where: { id: req.userId},
             include: [
-              { association: 'capture_forms' },
+              // { association: 'shop'}
             ]
           }
         )
+
+        const shop = await Shop.findOne(
+          {
+            include: [
+              { association: 'address' },
+            ]
+          }
+        );
 
         if(!user){
             return res.status(401).json({ error: 'user not found.'})
         }
 
-        return res.json(user);
+        user.password_hash = undefined;
+        
+        return res.json({
+          ...user.toJSON(),
+          shop
+        });
     }catch(err){
+        console.log(err)
         return res.status(401).json({ error: 'Error loading user. '});
     }
   }
@@ -49,13 +64,11 @@ class UserController{
     try{
       const { email } =  req.body;
 
-      const userExists = await User.findOne( {where: { email }});
+      const userExists = await User.findOne( { where: { email }});
   
       if(userExists){
         return res.status(400).json({ error: 'Email already exists.'})
       }
-
-      req.body.credit = 0;
       
       const user = await User.create(req.body);
   

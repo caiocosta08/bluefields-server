@@ -1,4 +1,5 @@
-import Address from '../models/Adress';
+import Address from '../models/Address';
+import Shop from '../models/Shop';
 
 class AdressController{
 
@@ -43,9 +44,17 @@ class AdressController{
 
   async store(req, res){
 
-    req.body.shop_id = req.userId;
+    const userId = req.userId;
 
     try{
+      const shop = await Shop.findOne({
+        where:  { owner_id: userId },
+        include: [
+          { association: 'owner' },
+        ]
+      })
+
+      req.body.shop_id = shop.id;
       
       const address = await Address.create(req.body);
 

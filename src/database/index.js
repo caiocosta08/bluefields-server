@@ -1,13 +1,15 @@
 import Sequelize from 'sequelize';
 
+import User from '../app/models/User';
 import Shop from '../app/models/Shop';
-import Address from '../app/models/Adress';
+import Address from '../app/models/Address';
 
 import databaseConfig from '../config/database';
 
-const models = [ 
+const models = [
+   User,
    Shop,
-   Address
+   Address, 
 ]
 
 class Database{

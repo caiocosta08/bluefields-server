@@ -5,15 +5,13 @@ import bcrypt from 'bcryptjs';
 class User extends Model {
   static init(sequelize){
     super.init({
-      first_name: Sequelize.STRING,
-      last_name: Sequelize.STRING,
+      name: Sequelize.STRING,
       email: Sequelize.STRING,
-      cpf: Sequelize.STRING,
-      federation: Sequelize.STRING,
-      sex: Sequelize.STRING,
       password: Sequelize.VIRTUAL,
       password_hash: Sequelize.STRING,
-      credit: Sequelize.BIGINT,
+      cpf_cnpj: Sequelize.STRING,
+      phone: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     {
       sequelize,
@@ -30,6 +28,8 @@ class User extends Model {
   }
 
   static associate( models ){
+    this.hasOne( models.Shop, { foreignKey: 'owner_id', as: 'shop'} )
+
     // this.hasMany( models.CaptureForm, { foreignKey: 'user_id', as: 'capture_forms'} )
   }
 

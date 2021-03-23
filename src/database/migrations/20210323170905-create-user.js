@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('shop_addresses', {
+    return queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -8,56 +8,42 @@ module.exports = {
         primaryKey: true
       },
 
-      zip_code: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
 
-      shop_id: {
-        type: Sequelize.INTEGER,
+      email: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references:{
-          model: 'shops',
-          key: 'id',
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
-        },
+        unique: true
       },
 
-      uf: {
+      password_hash: {
         type: Sequelize.STRING,
         allowNull: false,
       },
 
-      city: {
+      cpf_cnpj: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
+        unique: true
       },
 
-      street: {
+      phone:{
         type: Sequelize.STRING,
-        allowNull: false,
       },
 
-      complement: {
+      type: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-
-      number_street: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-
-      district: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-    
+      }
+      
     })
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable('shop_addresses')
+    return queryInterface.dropTable('users')
   }
 };
+
