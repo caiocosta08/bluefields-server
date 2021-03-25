@@ -29,8 +29,7 @@ class User extends Model {
 
   static associate( models ){
     this.hasOne( models.Shop, { foreignKey: 'owner_id', as: 'shop'} )
-
-    // this.hasMany( models.CaptureForm, { foreignKey: 'user_id', as: 'capture_forms'} )
+    this.hasMany( models.Category, { foreignKey: 'owner_id', as: 'categories'} )
   }
 
   async checkPassword(password){

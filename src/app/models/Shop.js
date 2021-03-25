@@ -32,6 +32,7 @@ class Shop extends Model {
   static associate( models ){
     this.belongsTo( models.User, { foreignKey: 'owner_id', as: 'owner'})
     this.hasOne( models.Address, { foreignKey: 'shop_id', as: 'address'} )
+    this.hasMany( models.Product, { foreignKey: 'shop_id', as: 'products'})
   }
 
   // async checkPassword(password){
