@@ -37,6 +37,7 @@ class UserController{
 
         const shop = await Shop.findOne(
           {
+            where: { owner_id: user.id},
             include: [
               { association: 'address' },
             ]
@@ -135,6 +136,8 @@ class UserController{
         if(!user){
             return res.status(401).json({ error: 'User not found.'})
         }
+
+        user.destroy()
 
         return res.json({ message: 'User removed successful'})
     }catch(err){

@@ -26,7 +26,7 @@ class ShopController{
   async show(req, res){
 
     try{
-        const shop = await Shop.findAll(
+        const shop = await Shop.findOne(
           {
             where: { owner_id: req.userId }, 
             include: [
@@ -36,7 +36,6 @@ class ShopController{
           }
         );
         
-
         if(!shop){
             return res.status(401).json({ error: 'shop not found.'})
         }
