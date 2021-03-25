@@ -9,7 +9,6 @@ class UserSessionController{
       where:{ email },
       include: [
         { association: 'shop' },
-        { association: 'shop' },
       ]
     });
 
