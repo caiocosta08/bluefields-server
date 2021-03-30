@@ -15,4 +15,6 @@ routes.get('/:id', CategoryController.show);
 routes.put('/:id', CategoryController.update);
 routes.delete('/:id', CategoryController.destroy);
 
+
+
 export default routes;
