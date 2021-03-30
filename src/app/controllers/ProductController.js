@@ -1,5 +1,6 @@
 import Product from '../models/Product';
 import User from '../models/User';
+import Subcategory from '../models/Subcategory';
 
 class ProductController{
 
@@ -31,7 +32,7 @@ class ProductController{
         },
         include: [
           { association: 'shop'},
-          { association: 'category'},
+          { association: 'subcategory'},
         ]
       });
 
@@ -66,6 +67,13 @@ class ProductController{
       
       user = user.toJSON();
 
+      if(!user.shop){
+        return res.json({
+          error: 'Error loading associate user shop',
+          message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
+        })
+      }
+
       const shop_id = user.shop.id;
 
       const product = await Product.findAll({ 
@@ -75,7 +83,7 @@ class ProductController{
         },
         include: [
           { association: 'shop'},
-          { association: 'category'},
+          { association: 'subcategory'},
         ]
       });
 
@@ -86,7 +94,7 @@ class ProductController{
       return res.json(product)
     }catch(err){
         return res.status(401).json({ 
-          error: 'Error loading category ',
+          error: 'Error loading product ',
           message: err
         });
     }
@@ -108,9 +116,26 @@ class ProductController{
       
       user = user.toJSON();
 
+      
+      if(!user.shop){
+        return res.json({
+          error: 'Error loading associate user shop',
+          message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
+        })
+      }
+
       req.body.shop_id = user.shop.id;
 
-      // return res.json(req.body)
+
+      const subcategory = await Subcategory.findByPk(req.body.subcategory_id);
+
+      if(!subcategory){
+        return res.status(400).json({ error: 'Subcategory not exists'})
+      }
+
+      //VALIDAR ESPECIFICAMENTE A SUBCATEGORIA AO USUÁRIO DA REQUEST 
+      //Verificar se o usuário tem aquela subcategoria associada a fabrica dele
+
       const product = await Product.create(req.body);
 
       return res.json(product)
@@ -127,24 +152,39 @@ class ProductController{
 
     const id = req.params.id;
 
-    const category = await  Category.findOne({ 
+    let user = await User.findByPk(req.userId,
+      {
+        include: [
+          { association: 'shop' },
+        ]
+      }
+    );
+
+    user = user.toJSON();
+
+    if(!user.shop){
+      return res.json({
+        error: 'Error loading associate user shop',
+        message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
+      })
+    }
+
+    const shop_id = user.shop.id;
+
+    const product = await Product.findByPk(id, { 
       where: {
-        id,
-        owner_id: req.userId,
+        shop_id
       },
       include: [
-        { association: 'owner'},
+        { association: 'shop'},
+        { association: 'subcategory'},
       ]
     });
 
-    if(!category){
-      return res.status(400).json({error: 'Office category not exists.'})
-    }
-
     try{
-      const categoryUpdated = await category.update(req.body);
+      const productUpdated = await product.update(req.body);
 
-      return res.json(categoryUpdated)
+      return res.json(productUpdated)
     }catch(err){
       return res.status(400).json({
         error: 'Update error',
@@ -157,23 +197,42 @@ class ProductController{
     const id = req.params.id;
 
     try{
-      const category = await  Category.findOne({ 
-        where: {
-          id,
-          owner_id: req.userId,
+
+      let user = await User.findByPk(req.userId,
+        {
+          include: [
+            { association: 'shop' },
+          ]
         }
+      );
+  
+      user = user.toJSON();
+  
+      if(!user.shop){
+        return res.json({
+          error: 'Error loading associate user shop',
+          message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
+        })
+      }
+  
+      const shop_id = user.shop.id;
+  
+      const product = await Product.findByPk(id, { 
+        where: {
+          shop_id
+        },
+        include: [
+          { association: 'shop'},
+          { association: 'subcategory'},
+        ]
       });
 
-        if(!category){
-            return res.status(401).json({ error: 'Category not found.'})
-        }
+        product.destroy()
 
-        category.destroy()
-
-        return res.json({ message: 'Category removed successfull'})
+        return res.json({ message: 'product removed successfull'})
     }catch(err){
         return res.status(401).json({ 
-          error: 'Error remove address. ',
+          error: 'Error remove product. ',
           message: err
         });
     }

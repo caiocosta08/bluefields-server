@@ -1,29 +1,26 @@
-import Category from '../models/Category';
+import Subcategory from '../models/Subcategory';
 
-class CategoryController{
+class SubcategoryController{
 
   async index(req, res){
     try{
-      const categories = await Category.findAll({ 
-        where: {
-          owner_id: req.userId
-        },
+      const subcategories = await Subcategory.findAll({
         include: [
-          { association: 'owner'},
-          { association: 'subcategories'},
+          { association: 'category'},
+          { association: 'products'},
         ]
       });
 
-      if(categories.length === 0){
+      if(subcategories.length === 0){
         return res.json({
           message: 'not registers'
         })
       }
 
-      return res.json(categories)
+      return res.json(subcategories)
     }catch(err){
       return res.status(400).json({ 
-        error: 'Error loading categories',
+        error: 'Error loading subcategories',
         message: err
       });
     }
@@ -33,25 +30,21 @@ class CategoryController{
     const id = req.params.id;
 
     try{
-        const category = await  Category.findOne({ 
-          where: {
-            id,
-            owner_id: req.userId,
-          },
+        const subcategory = await  Subcategory.findByPk(id, { 
           include: [
-            { association: 'owner'},
-            { association: 'subcategories'},
+            { association: 'category'},
+            { association: 'products'},
           ]
         });
 
-        if(!category){
-            return res.status(401).json({ error: 'category not found.'})
+        if(!subcategory){
+            return res.status(401).json({ error: 'subcategory not found.'})
         }
 
-        return res.json(category);
+        return res.json(subcategory);
     }catch(err){
         return res.status(401).json({ 
-          error: 'Error loading category ',
+          error: 'Error loading subcategory ',
           message: err
         });
     }
@@ -59,15 +52,11 @@ class CategoryController{
 
   async store(req, res){
 
-    const userId = req.userId;
-
     try{
-
-      req.body.owner_id = userId;
       
-      const category = await Category.create(req.body);
+      const subcategory = await Subcategory.create(req.body);
 
-      return res.json(category)
+      return res.json(subcategory)
     }catch(err){
       return res.status(400).json({ 
         error: 'Registration failed!',
@@ -134,4 +123,4 @@ class CategoryController{
   
 }
 
-export default new CategoryController();
+export default new SubcategoryController();

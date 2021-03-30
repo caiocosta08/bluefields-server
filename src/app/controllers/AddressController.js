@@ -54,6 +54,12 @@ class AdressController{
         ]
       })
 
+      if(!shop){
+        return res.status(400).json({
+          message: 'User not shop register for registration address',
+        })
+      }
+
       req.body.shop_id = shop.id;
       
       const address = await Address.create(req.body);

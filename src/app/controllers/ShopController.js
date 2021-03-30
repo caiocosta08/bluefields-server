@@ -1,4 +1,5 @@
 import Shop from '../models/Shop';
+import Factory from '../models/Factory';  
 
 class ShopController{
 
@@ -71,6 +72,18 @@ class ShopController{
       }
 
       req.body.owner_id = req.userId;
+
+
+      const factory = await  Factory.findOne( 
+        {
+          where: { owner_id: req.userId},
+          include: [
+            { association: 'owner'}
+          ]
+        }
+      )
+
+      req.body.factory_id = factory.id;
       
       const shop = await Shop.create(req.body);
   
