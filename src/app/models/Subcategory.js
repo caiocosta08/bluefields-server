@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Category extends Model {
+class Subcategory extends Model {
   static init(sequelize){
     super.init({
       name: Sequelize.STRING,
@@ -16,10 +16,10 @@ class Category extends Model {
   }
 
   static associate( models ){
-    this.belongsTo( models.User, { foreignKey: 'owner_id', as: 'owner'})
-    this.hasMany( models.Subcategory, { foreignKey: 'category_id', as: 'subcategories'})
+    this.belongsTo( models.Category, { foreignKey: 'category_id', as: 'category'})
+    this.hasMany( models.Product, { foreignKey: 'subcategory_id', as: 'products'})
   }
 
 }
 
-export default Category;
+export default Subcategory;

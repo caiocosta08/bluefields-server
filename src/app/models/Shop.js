@@ -33,6 +33,8 @@ class Shop extends Model {
     this.belongsTo( models.User, { foreignKey: 'owner_id', as: 'owner'})
     this.hasOne( models.Address, { foreignKey: 'shop_id', as: 'address'} )
     this.hasMany( models.Product, { foreignKey: 'shop_id', as: 'products'})
+    this.hasMany( models.DiscountCoupon, { foreignKey: 'shop_id', as: 'discount_coupons'})
+    this.hasMany( models.Order, { foreignKey: 'shop_id', as: 'orders'})
   }
 
   // async checkPassword(password){
