@@ -76,7 +76,7 @@ class ProductController{
 
       const shop_id = user.shop.id;
 
-      const product = await Product.findAll({ 
+      const product = await Product.findOne({ 
         where: {
           id, 
           shop_id

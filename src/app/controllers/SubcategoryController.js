@@ -69,7 +69,7 @@ class SubcategoryController{
 
     const id = req.params.id;
 
-    const category = await  Category.findOne({ 
+    const subcategory = await Subcategory.findOne({ 
       where: {
         id,
         owner_id: req.userId,
@@ -79,14 +79,14 @@ class SubcategoryController{
       ]
     });
 
-    if(!category){
+    if(!subcategory){
       return res.status(400).json({error: 'Office category not exists.'})
     }
 
     try{
-      const categoryUpdated = await category.update(req.body);
+      const subcategoryUpdated = await subcategory.update(req.body);
 
-      return res.json(categoryUpdated)
+      return res.json(subcategoryUpdated)
     }catch(err){
       return res.status(400).json({
         error: 'Update error',
