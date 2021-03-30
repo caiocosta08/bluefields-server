@@ -21,7 +21,7 @@ class OrderController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Error loading subcategories',
-        message: err
+        message: String(err)
       });
     }
   }
@@ -61,7 +61,7 @@ class OrderController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error loading order ',
-          message: err
+          message: String(err)
         });
     }
   }
@@ -174,7 +174,7 @@ class OrderController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error remove address. ',
-          message: err
+          message: String(err)
         });
     }
   }

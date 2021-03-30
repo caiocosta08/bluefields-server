@@ -44,7 +44,7 @@ class FactoryController{
         console.log(err)
         return res.status(401).json({ 
           error: 'Error loading factory. ',
-          message: err
+          message: String(err)
         });
     }
   }
@@ -70,7 +70,7 @@ class FactoryController{
       console.log(err)
       return res.status(400).json({
         error: 'Registration failed',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -103,7 +103,7 @@ class FactoryController{
       console.log(err)
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -120,7 +120,10 @@ class FactoryController{
 
       return res.status(200).json({ message: 'Factory removed successful'})
     }catch(err){
-        return res.status(401).json({ error: 'Error remove factory. '});
+        return res.status(401).json({ 
+          error: 'Error remove factory. ',
+          message: String(err)
+        });
     }
   }
   

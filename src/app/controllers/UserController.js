@@ -18,7 +18,7 @@ class UserController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Error loading users',
-        message: err
+        message: String(err)
       });
     }
   }
@@ -56,7 +56,10 @@ class UserController{
         });
     }catch(err){
         console.log(err)
-        return res.status(401).json({ error: 'Error loading user. '});
+        return res.status(401).json({ 
+          error: 'Error loading user. ',
+          message: String(err),
+        });
     }
   }
 
@@ -85,7 +88,7 @@ class UserController{
       console.log(err)
       return res.status(400).json({
         error: 'Registration failed',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -122,7 +125,7 @@ class UserController{
       console.log(err)
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -141,7 +144,10 @@ class UserController{
 
         return res.json({ message: 'User removed successful'})
     }catch(err){
-        return res.status(401).json({ error: 'Error remove User. '});
+        return res.status(401).json({ 
+          error: 'Error remove User. ',
+          message: String(err),
+        });
     }
   }
   

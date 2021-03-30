@@ -24,7 +24,7 @@ class CategoryController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Error loading categories',
-        message: err
+        message: String(err)
       });
     }
   }
@@ -52,7 +52,7 @@ class CategoryController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error loading category ',
-          message: err
+          message: String(err)
         });
     }
   }
@@ -71,7 +71,7 @@ class CategoryController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Registration failed!',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -101,7 +101,7 @@ class CategoryController{
     }catch(err){
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -127,7 +127,7 @@ class CategoryController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error remove address. ',
-          message: err
+          message: String(err)
         });
     }
   }

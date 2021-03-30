@@ -19,7 +19,7 @@ class ShopController{
       console.log(err)
       return res.status(400).json({ 
         error: 'Error loading shops',
-        message: err
+        message: String(err)
       });
     }
   }
@@ -44,7 +44,10 @@ class ShopController{
         return res.json(shop);
     }catch(err){
         console.log(err)
-        return res.status(401).json({ error: 'Error loading shop. '});
+        return res.status(401).json({ 
+          error: 'Error loading shop. ',
+          message: String(err)
+        });
     }
   }
 
@@ -98,7 +101,7 @@ class ShopController{
       console.log(err)
       return res.status(400).json({
         error: 'Registration failed',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -135,7 +138,7 @@ class ShopController{
       console.log(err)
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -152,7 +155,10 @@ class ShopController{
 
         return res.json({ message: 'Shop removed successful'})
     }catch(err){
-        return res.status(401).json({ error: 'Error remove Shop. '});
+        return res.status(401).json({ 
+          error: 'Error remove Shop. ',
+          message: String(err)
+        });
     }
   }
   

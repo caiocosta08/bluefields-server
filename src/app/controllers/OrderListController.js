@@ -23,7 +23,7 @@ class OrderController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error loading orderList ',
-          message: err
+          message: String(err)
         });
     }
   }
@@ -63,7 +63,7 @@ class OrderController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Registration failed!',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -90,7 +90,7 @@ class OrderController{
     }catch(err){
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }

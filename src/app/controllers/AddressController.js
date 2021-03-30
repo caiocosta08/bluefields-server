@@ -18,7 +18,7 @@ class AdressController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Error loading addresses',
-        message: err
+        message: String(err)
       });
     }
   }
@@ -37,7 +37,7 @@ class AdressController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error loading addresses. ',
-          message: err
+          message: String(err)
         });
     }
   }
@@ -68,7 +68,7 @@ class AdressController{
     }catch(err){
       return res.status(400).json({ 
         error: 'Registration failed!',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -91,7 +91,7 @@ class AdressController{
     }catch(err){
       return res.status(400).json({
         error: 'Update error',
-        message: err
+        message: String(err)
       })
     }
   }
@@ -110,7 +110,7 @@ class AdressController{
     }catch(err){
         return res.status(401).json({ 
           error: 'Error remove address. ',
-          message: err
+          message: String(err)
         });
     }
   }
