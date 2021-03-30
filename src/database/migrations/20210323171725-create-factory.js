@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('categories', {
+    return queryInterface.createTable('factories', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,6 +11,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+
+      cpf_cnpj: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
 
       owner_id: {
@@ -24,17 +30,21 @@ module.exports = {
         },
       },
 
-      status: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true, 
-        defaultValue: true,
+      email:{
+        type: Sequelize.STRING,
+        unique: true, 
+        allowNull: false,
+      },
+
+      sales_comission:{
+        type: Sequelize.INTEGER,
       },
       
     })
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable('categories')
+    return queryInterface.dropTable('factories')
   }
 };
 

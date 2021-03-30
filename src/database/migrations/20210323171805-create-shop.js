@@ -58,6 +58,17 @@ module.exports = {
         },
       },
 
+      factory_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references:{
+          model: 'users',
+          key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL'
+        },
+      },
+
       phone:{
         type: Sequelize.STRING,
       },

@@ -63,11 +63,11 @@ module.exports = {
         },
       },
 
-      category_id: {
+      subcategory_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
-          model: 'categories',
+          model: 'subcategories',
           key: 'id',
           onUpdate: 'CASCADE',
           onDelete: 'SET NULL'
