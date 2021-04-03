@@ -4,13 +4,7 @@ class FactoryController {
 
   async index(req, res) {
     try {
-      const factories = await Factory.findAll(
-        {
-          include: [
-            { association: 'user' },
-          ]
-        }
-      );
+      const factories = await Factory.findAll();
 
       return res.json(factories)
     } catch (err) {
