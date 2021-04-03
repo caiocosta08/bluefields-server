@@ -1,134 +1,132 @@
 import Category from '../models/Category';
 
-class CategoryController{
+class CategoryController {
 
-  async index(req, res){
-    try{
+  async index(req, res) {
+    try {
 
-      const { userId } = req.body
-      
-      if (!userId) {
-        return res.status(400).json({ error: 'User id not provided' });
+      const { owner_id } = req.body
+
+      if (!owner_id) {
+        return res.status(400).json({ error: 'Owner id not provided' });
       }
 
-      const categories = await Category.findAll({ 
+      const categories = await Category.findAll({
         where: {
-          owner_id: userId
+          owner_id
         },
         include: [
-          { association: 'owner'},
-          { association: 'subcategories'},
+          { association: 'owner' },
+          { association: 'subcategories' },
         ]
       });
 
-      if(categories.length === 0){
+      if (categories.length === 0) {
         return res.json({
           message: 'not registers'
         })
       }
 
       return res.json(categories)
-    }catch(err){
-      return res.status(400).json({ 
+    } catch (err) {
+      return res.status(400).json({
         error: 'Error loading categories',
         message: String(err)
       });
     }
   }
 
-  async show(req, res){
+  async show(req, res) {
 
     const id = req.params.id;
-    const { userId } = req.body
-      
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    const { owner_id } = req.body
+
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
-    try{
-        const category = await  Category.findOne({ 
-          where: {
-            id,
-            owner_id: userId,
-          },
-          include: [
-            { association: 'owner'},
-            { association: 'subcategories'},
-          ]
-        });
+    try {
+      const category = await Category.findOne({
+        where: {
+          id,
+          owner_id,
+        },
+        include: [
+          { association: 'owner' },
+          { association: 'subcategories' },
+        ]
+      });
 
-        if(!category){
-            return res.status(401).json({ error: 'category not found.'})
-        }
+      if (!category) {
+        return res.status(401).json({ error: 'category not found.' })
+      }
 
-        return res.json(category);
-    }catch(err){
-        return res.status(401).json({ 
-          error: 'Error loading category ',
-          message: String(err)
-        });
+      return res.json(category);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading category ',
+        message: String(err)
+      });
     }
   }
 
-  async store(req, res){
+  async store(req, res) {
 
-    const userId = req.userId;
+    const { owner_id } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
-    try{
+    try {
 
-      req.body.owner_id = userId;
-      
       const category = await Category.create(req.body);
 
       return res.json(category)
-    }catch(err){
-      return res.status(400).json({ 
+    } catch (err) {
+      return res.status(400).json({
         error: 'Registration failed!',
         message: String(err)
       })
     }
   }
 
-  async update(req, res){
+  async update(req, res) {
 
     const id = req.params.id;
-    const { userId } = req.body
-      
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    const { owner_id } = req.body
+
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
-    const category = await  Category.findOne({ 
+    const category = await Category.findOne({
       where: {
         id,
-        owner_id: req.userId,
+        owner_id,
       },
       include: [
-        { association: 'owner'},
+        { association: 'owner' },
       ]
     });
 
-    if(!category){
-      return res.status(400).json({error: 'Office category not exists.'})
+    if (!category) {
+      return res.status(400).json({ error: 'Office category not exists.' })
     }
 
-    try{
+    try {
       const categoryUpdated = await category.update(req.body);
 
       return res.json(categoryUpdated)
-    }catch(err){
+    } catch (err) {
       return res.status(400).json({
         error: 'Update error',
         message: String(err)
@@ -136,41 +134,41 @@ class CategoryController{
     }
   }
 
-  async destroy(req, res){
+  async destroy(req, res) {
     const id = req.params.id;
-    const { userId } = req.body
-      
-    if (!userId) {
+    const { owner_id } = req.body
+
+    if (!owner_id) {
       return res.status(400).json({ error: 'User id not provided' });
     }
-    
+
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
-    try{
-      const category = await  Category.findOne({ 
+    try {
+      const category = await Category.findOne({
         where: {
           id,
-          owner_id: req.userId,
+          owner_id,
         }
       });
 
-        if(!category){
-            return res.status(401).json({ error: 'Category not found.'})
-        }
+      if (!category) {
+        return res.status(401).json({ error: 'Category not found.' })
+      }
 
-        category.destroy()
+      await category.destroy()
 
-        return res.json({ message: 'Category removed successfull'})
-    }catch(err){
-        return res.status(401).json({ 
-          error: 'Error remove address. ',
-          message: String(err)
-        });
+      return res.json({ message: 'Category removed successfull' })
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error remove address. ',
+        message: String(err)
+      });
     }
   }
-  
+
 }
 
 export default new CategoryController();

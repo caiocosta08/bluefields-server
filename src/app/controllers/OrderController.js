@@ -28,17 +28,17 @@ class OrderController {
 
   async show(req, res) {
     const id = req.params.id;
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId || !id) {
-      return res.status(400).json({ error: 'Id or user id not provided' });
+    if (!owner_id || !id) {
+      return res.status(400).json({ error: 'Id or owner id not provided' });
     }
 
     try {
 
       const shop = await Shop.findOne(
         {
-          where: { owner_id: userId }
+          where: { owner_id }
         }
       );
 
@@ -72,17 +72,17 @@ class OrderController {
   }
 
   async store(req, res) {
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
 
       const shop = await Shop.findOne(
         {
-          where: { owner_id: userId }
+          where: { owner_id }
         }
       );
 
@@ -109,10 +109,10 @@ class OrderController {
   async update(req, res) {
 
     const id = req.params.id;
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId || !id) {
-      return res.status(400).json({ error: 'Id or user id not provided' });
+    if (!owner_id || !id) {
+      return res.status(400).json({ error: 'Id or owner id not provided' });
     }
 
 
@@ -120,7 +120,7 @@ class OrderController {
 
       const shop = await Shop.findOne(
         {
-          where: { owner_id: userId }
+          where: { owner_id }
         }
       );
 
@@ -157,17 +157,17 @@ class OrderController {
 
   async destroy(req, res) {
     const id = req.params.id;
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId || !id) {
-      return res.status(400).json({ error: 'Id or user id not provided' });
+    if (!owner_id || !id) {
+      return res.status(400).json({ error: 'Id or owner id not provided' });
     }
 
     try {
 
       const shop = await Shop.findOne(
         {
-          where: { owner_id: userId }
+          where: { owner_id }
         }
       );
 
@@ -188,7 +188,7 @@ class OrderController {
       });
 
 
-      order.destroy()
+      await order.destroy()
 
       return res.json({ message: 'Order removed successfull' })
     } catch (err) {

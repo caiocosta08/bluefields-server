@@ -158,7 +158,7 @@ class UserController {
         return res.status(401).json({ error: 'User not found.' })
       }
 
-      user.destroy()
+      await user.destroy()
 
       return res.json({ message: 'User removed successful' })
     } catch (err) {

@@ -254,7 +254,7 @@ class ProductController {
         ]
       });
 
-      product.destroy()
+      await product.destroy()
 
       return res.json({ message: 'product removed successfull' })
     } catch (err) {

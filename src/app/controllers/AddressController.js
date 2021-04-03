@@ -5,23 +5,23 @@ class AdressController {
 
   async index(req, res) {
     try {
-      
-      const { userId } = req.body
-      
-      if (!userId) {
-        return res.status(400).json({ error: 'User id not provided' });
+
+      const { owner_id } = req.body
+
+      if (!owner_id) {
+        return res.status(400).json({ error: 'Owner id not provided' });
       }
 
       const shop = await Shop.findOne(
         {
-          where: { owner_id: user.id },
+          where: { owner_id },
           include: [
             { association: 'address' },
           ]
         }
       );
 
-      if(!shop){
+      if (!shop) {
         return res.status(400).json({
           error: 'Shop not register for user'
         })
@@ -46,7 +46,7 @@ class AdressController {
   }
 
   async show(req, res) {
-    
+
     const id = req.params.id;
 
     if (!id) {
@@ -71,15 +71,15 @@ class AdressController {
 
   async store(req, res) {
 
-    const { userId } = req.body
-    
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    const { owner_id } = req.body
+
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
       const shop = await Shop.findOne({
-        where: { owner_id: userId },
+        where: { owner_id },
         include: [
           { association: 'owner' },
         ]
@@ -131,11 +131,15 @@ class AdressController {
     const id = req.params.id;
 
     try {
-      const address = await address.findByPk(id)
+      const address = await Address.findOne({
+        where: { id }
+      });
 
       if (!address) {
         return res.status(401).json({ error: 'address not found.' })
       }
+
+      await address.destroy();
 
       return res.json({ message: 'Address removed successfull' })
     } catch (err) {

@@ -136,7 +136,7 @@ class FactoryController {
         where: { owner_id }
       });
 
-      factory.destroy()
+      await factory.destroy()
 
       return res.status(200).json({ message: 'Factory removed successful' })
     } catch (err) {

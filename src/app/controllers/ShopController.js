@@ -171,6 +171,8 @@ class ShopController {
         return res.status(401).json({ error: 'Shop not found.' })
       }
 
+      await shop.destroy();
+
       return res.json({ message: 'Shop removed successful' })
     } catch (err) {
       return res.status(401).json({
