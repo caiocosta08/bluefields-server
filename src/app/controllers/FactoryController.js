@@ -2,24 +2,24 @@ import Factory from '../models/Factory';
 
 class FactoryController {
 
-  // async index(req, res){
-  //   try{
-  //     const users = await User.findAll(
-  //       {
-  //         include: [
-  //           { association: 'shop' },
-  //         ]
-  //       }
-  //     );
+  async index(req, res) {
+    try {
+      const factories = await Factory.findAll(
+        {
+          include: [
+            { association: 'user' },
+          ]
+        }
+      );
 
-  //     return res.json(users)
-  //   }catch(err){
-  //     return res.status(400).json({ 
-  //       error: 'Error loading users',
-  //       message: err
-  //     });
-  //   }
-  // }
+      return res.json(factories)
+    } catch (err) {
+      return res.status(400).json({
+        error: 'Error loading factories',
+        message: err
+      });
+    }
+  }
 
   async show(req, res) {
 
