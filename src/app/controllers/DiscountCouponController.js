@@ -6,9 +6,15 @@ class DiscountCouponController{
   async index(req, res){
     try{
 
+      const { userId } = req.body
+      
+      if (!userId) {
+        return res.status(400).json({ error: 'User id not provided' });
+      }
+
       const shop = await Shop.findOne(
         {
-          where: { owner_id: req.userId}
+          where: { owner_id: userId}
         }
       );
 
@@ -38,6 +44,13 @@ class DiscountCouponController{
 
   async show(req, res){
     const id = req.params.id;
+    const { userId } = req.body
+
+    
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
+    
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
@@ -111,6 +124,11 @@ class DiscountCouponController{
   async update(req, res){
 
     const id = req.params.id;
+    const { userId } = req.body
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
@@ -146,6 +164,11 @@ class DiscountCouponController{
 
   async destroy(req, res){
     const id = req.params.id;
+    const { userId } = req.body
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }

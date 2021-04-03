@@ -61,11 +61,7 @@ class OrderController {
 
       product.save();
 
-      const orderList = await OrderList.create({
-        "quantity": 2,
-        "product_id": 5,
-        "order_id": 1
-      });
+      const orderList = await OrderList.create(req.body);
 
       return res.json(orderList)
     } catch (err) {

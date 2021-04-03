@@ -5,9 +5,16 @@ import Subcategory from '../models/Subcategory';
 class ProductController {
 
   async index(req, res) {
+
+    const { userId } = req.body
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
+
     try {
 
-      let user = await User.findByPk(req.userId,
+      let user = await User.findByPk(userId,
         {
           include: [
             { association: 'shop' },

@@ -59,6 +59,12 @@ class ShopController {
 
   async store(req, res) {
 
+    const { userId } = req.body
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
+
     try {
       const { email, shop_url, cpf_cnpj } = req.body;
   
@@ -84,7 +90,7 @@ class ShopController {
         return res.status(400).json({ error: 'CPF/CNPJ already exists.' })
       }
 
-      req.body.owner_id = req.userId;
+      req.body.owner_id = userId;
 
 
       const factory = await Factory.findOne(

@@ -5,9 +5,31 @@ class AdressController {
 
   async index(req, res) {
     try {
+      
+      const { userId } = req.body
+      
+      if (!userId) {
+        return res.status(400).json({ error: 'User id not provided' });
+      }
+
+      const shop = await Shop.findOne(
+        {
+          where: { owner_id: user.id },
+          include: [
+            { association: 'address' },
+          ]
+        }
+      );
+
+      if(!shop){
+        return res.status(400).json({
+          error: 'Shop not register for user'
+        })
+      }
+
       const addresses = await Address.findAll({
         where: {
-          shop_id: req.userId
+          shop_id: shop.id
         },
         include: [
           { association: 'shop' },
@@ -24,7 +46,9 @@ class AdressController {
   }
 
   async show(req, res) {
+    
     const id = req.params.id;
+
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
@@ -48,6 +72,7 @@ class AdressController {
   async store(req, res) {
 
     const { userId } = req.body
+    
     if (!userId) {
       return res.status(400).json({ error: 'User id not provided' });
     }
