@@ -25,6 +25,9 @@ class AdressController{
 
   async show(req, res){
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
     try{
         const address = await  Address.findByPk(id)
@@ -45,6 +48,9 @@ class AdressController{
   async store(req, res){
 
     const userId = req.userId;
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
 
     try{
       const shop = await Shop.findOne({
@@ -76,6 +82,9 @@ class AdressController{
   async update(req, res){
 
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
 
     const address = await Address.findByPk(id);
@@ -98,6 +107,9 @@ class AdressController{
 
   async destroy(req, res){
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
     try{
         const address = await  address.findByPk(id)

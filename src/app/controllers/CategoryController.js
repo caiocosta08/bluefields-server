@@ -31,6 +31,9 @@ class CategoryController{
 
   async show(req, res){
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
     try{
         const category = await  Category.findOne({ 
@@ -60,6 +63,9 @@ class CategoryController{
   async store(req, res){
 
     const userId = req.userId;
+    if (!userId) {
+      return res.status(400).json({ error: 'User id not provided' });
+    }
 
     try{
 
@@ -79,6 +85,9 @@ class CategoryController{
   async update(req, res){
 
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
     const category = await  Category.findOne({ 
       where: {
@@ -108,6 +117,9 @@ class CategoryController{
 
   async destroy(req, res){
     const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
     try{
       const category = await  Category.findOne({ 
