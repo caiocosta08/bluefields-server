@@ -30,7 +30,7 @@ class UserController{
           {
             where: { id: req.userId},
             include: [
-              // { association: 'shop'}
+              { association: 'factory'}
             ]
           }
         )
