@@ -26,16 +26,16 @@ class ShopController {
 
   async show(req, res) {
 
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
       const shop = await Shop.findOne(
         {
-          where: { owner_id: userId },
+          where: { owner_id },
           include: [
             { association: 'address' },
             { association: 'owner' },
@@ -59,10 +59,10 @@ class ShopController {
 
   async store(req, res) {
 
-    const { userId } = req.body
+    const { owner_id } = req.body
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
@@ -90,12 +90,10 @@ class ShopController {
         return res.status(400).json({ error: 'CPF/CNPJ already exists.' })
       }
 
-      req.body.owner_id = userId;
-
 
       const factory = await Factory.findOne(
         {
-          where: { owner_id: req.userId },
+          where: { owner_id },
           include: [
             { association: 'owner' }
           ]
@@ -124,13 +122,13 @@ class ShopController {
 
   async update(req, res) {
 
-    const { email, oldpassword } = req.body;
+    const { email, oldpassword, owner_id } = req.body;
 
-    if (!email || !oldpassword) {
-      return res.status(400).json({ error: 'Email or old password not provided' });
+    if (!email || !oldpassword || !owner_id) {
+      return res.status(400).json({ error: 'Email, owner id or old password not provided' });
     }
 
-    const shop = await Shop.findByPk(req.userId);
+    const shop = await Shop.findByPk(owner_id);
 
     if (!shop) {
       return res.status(401).json({ error: 'Shop not found.' })
