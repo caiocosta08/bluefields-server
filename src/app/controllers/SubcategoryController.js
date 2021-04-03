@@ -1,93 +1,108 @@
 import Subcategory from '../models/Subcategory';
 
-class SubcategoryController{
+class SubcategoryController {
 
-  async index(req, res){
-    try{
+  async index(req, res) {
+    try {
       const subcategories = await Subcategory.findAll({
         include: [
-          { association: 'category'},
-          { association: 'products'},
+          { association: 'category' },
+          { association: 'products' },
         ]
       });
 
-      if(subcategories.length === 0){
+      if (subcategories.length === 0) {
         return res.json({
           message: 'not registers'
         })
       }
 
       return res.json(subcategories)
-    }catch(err){
-      return res.status(400).json({ 
+    } catch (err) {
+      return res.status(400).json({
         error: 'Error loading subcategories',
         message: String(err)
       });
     }
   }
 
-  async show(req, res){
+  async show(req, res) {
     const id = req.params.id;
 
-    try{
-        const subcategory = await  Subcategory.findByPk(id, { 
-          include: [
-            { association: 'category'},
-            { association: 'products'},
-          ]
-        });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
 
-        if(!subcategory){
-            return res.status(401).json({ error: 'subcategory not found.'})
-        }
+    try {
+      const subcategory = await Subcategory.findByPk(id, {
+        include: [
+          { association: 'category' },
+          { association: 'products' },
+        ]
+      });
 
-        return res.json(subcategory);
-    }catch(err){
-        return res.status(401).json({ 
-          error: 'Error loading subcategory ',
-          message: String(err)
-        });
+      if (!subcategory) {
+        return res.status(401).json({ error: 'subcategory not found.' })
+      }
+
+      return res.json(subcategory);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading subcategory ',
+        message: String(err)
+      });
     }
   }
 
-  async store(req, res){
+  async store(req, res) {
 
-    try{
-      
-      const subcategory = await Subcategory.create(req.body);
+    const newSubCategory = req.body;
+
+    if (!newSubCategory) {
+      return res.status(400).json({ error: 'New subcategory not provided' });
+    }
+
+    try {
+
+      const subcategory = await Subcategory.create(newSubCategory);
 
       return res.json(subcategory)
-    }catch(err){
-      return res.status(400).json({ 
+    } catch (err) {
+      return res.status(400).json({
         error: 'Registration failed!',
         message: String(err)
       })
     }
   }
 
-  async update(req, res){
+  async update(req, res) {
 
     const id = req.params.id;
+    const { userId } = req.body;
 
-    const subcategory = await Subcategory.findOne({ 
+    if (!id || !userId) {
+      return res.status(400).json({ error: 'Id or user id not provided' });
+    }
+
+    const subcategory = await Subcategory.findOne({
       where: {
         id,
-        owner_id: req.userId,
+        owner_id: userId,
       },
       include: [
-        { association: 'owner'},
+        { association: 'owner' },
       ]
     });
 
-    if(!subcategory){
-      return res.status(400).json({error: 'Office category not exists.'})
+    if (!subcategory) {
+      return res.status(400).json({ error: 'Office category not exists.' })
     }
 
-    try{
+    try {
       const subcategoryUpdated = await subcategory.update(req.body);
 
       return res.json(subcategoryUpdated)
-    }catch(err){
+    } catch (err) {
       return res.status(400).json({
         error: 'Update error',
         message: String(err)
@@ -95,32 +110,37 @@ class SubcategoryController{
     }
   }
 
-  async destroy(req, res){
+  async destroy(req, res) {
     const id = req.params.id;
+    const { userId} = req.body;
 
-    try{
-      const category = await  Category.findOne({ 
+    if (!id || !userId) {
+      return res.status(400).json({ error: 'Id or user id not provided' });
+    }
+
+    try {
+      const category = await Category.findOne({
         where: {
           id,
-          owner_id: req.userId,
+          owner_id: userId,
         }
       });
 
-        if(!category){
-            return res.status(401).json({ error: 'Category not found.'})
-        }
+      if (!category) {
+        return res.status(401).json({ error: 'Category not found.' })
+      }
 
-        category.destroy()
+      category.destroy()
 
-        return res.json({ message: 'Category removed successfull'})
-    }catch(err){
-        return res.status(401).json({ 
-          error: 'Error remove address. ',
-          message: String(err)
-        });
+      return res.json({ message: 'Category removed successfull' })
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error remove address. ',
+        message: String(err)
+      });
     }
   }
-  
+
 }
 
 export default new SubcategoryController();

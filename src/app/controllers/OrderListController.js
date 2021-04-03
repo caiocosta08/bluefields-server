@@ -1,12 +1,16 @@
 import OrderList from '../models/OrderList';
 import Product from '../models/Product';
 
-class OrderController{
+class OrderController {
 
-  async show(req, res){
+  async show(req, res) {
     const id = req.params.id;
 
-    try{
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
 
 
       const orderList = await OrderList.findByPk(id, {
@@ -15,34 +19,38 @@ class OrderController{
         ]
       });
 
-      if(!orderList){
-          return res.status(401).json({ error: 'orderList not found for user'})
+      if (!orderList) {
+        return res.status(401).json({ error: 'orderList not found for user' })
       }
 
       return res.json(orderList);
-    }catch(err){
-        return res.status(401).json({ 
-          error: 'Error loading orderList ',
-          message: String(err)
-        });
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading orderList ',
+        message: String(err)
+      });
     }
   }
 
-  async store(req, res){
+  async store(req, res) {
 
-    try{
+    try {
 
       const { product_id, quantity } = req.body;
+  
+      if (!product_id || !quantity) {
+        return res.status(400).json({ error: 'Product id or quantity not provided' });
+      }
 
       const product = await Product.findByPk(product_id);
 
-      if(!product){
+      if (!product) {
         return res.status(400).json({
           error: 'product not found',
         })
       }
 
-      if((product.available_quantity - quantity) < 0){
+      if ((product.available_quantity - quantity) < 0) {
         return res.status(401).json({
           error: 'Stock quantity error',
           message: `insufficient quantity of product in stock. Total:${product.available_quantity}`
@@ -52,7 +60,7 @@ class OrderController{
       product.available_quantity -= quantity;
 
       product.save();
-      
+
       const orderList = await OrderList.create({
         "quantity": 2,
         "product_id": 5,
@@ -60,34 +68,38 @@ class OrderController{
       });
 
       return res.json(orderList)
-    }catch(err){
-      return res.status(400).json({ 
+    } catch (err) {
+      return res.status(400).json({
         error: 'Registration failed!',
         message: String(err)
       })
     }
   }
 
-  async update(req, res){
+  async update(req, res) {
 
     const id = req.params.id;
 
-    try{
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
 
       const order = await OrderList.findByPk(id, {
         include: [
-          { association: 'order'},
+          { association: 'order' },
         ]
       });
 
-      if(!order){
-          return res.status(401).json({ error: 'order not found for user'})
+      if (!order) {
+        return res.status(401).json({ error: 'order not found for user' })
       }
 
       const orderUpdated = await order.update(req.body);
 
       return res.json(orderUpdated)
-    }catch(err){
+    } catch (err) {
       return res.status(400).json({
         error: 'Update error',
         message: String(err)
@@ -95,7 +107,7 @@ class OrderController{
     }
   }
 
-  
+
 }
 
 export default new OrderController();
