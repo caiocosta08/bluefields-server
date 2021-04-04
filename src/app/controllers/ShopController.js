@@ -135,7 +135,7 @@ class ShopController {
       )
 
       //temporary
-      req.body.factory_id = factory.id || 1;
+      req.body.factory_id = factory ? factory.id : 1;
 
       const user = await User.findOne({
         where: { id: owner_id }
