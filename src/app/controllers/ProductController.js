@@ -35,15 +35,15 @@ class ProductController {
 
   async getAllWithOwnerId(req, res) {
 
-    const { userId } = req.body
+    const { owner_id } = req.body
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
 
-      let user = await User.findByPk(userId,
+      let user = await User.findByPk(owner_id,
         {
           include: [
             { association: 'shop' },
@@ -89,15 +89,15 @@ class ProductController {
 
   async show(req, res) {
     const id = req.params.id;
-    const { userId } = req.body;
+    const { owner_id } = req.body
 
-    if (!id || !userId) {
-      return res.status(400).json({ error: 'Id or user id not provided' });
+    if (!id || !owner_id) {
+      return res.status(400).json({ error: 'Id or owner id not provided' });
     }
 
     try {
 
-      let user = await User.findByPk(userId,
+      let user = await User.findByPk(owner_id,
         {
           include: [
             { association: 'shop' },
@@ -144,14 +144,14 @@ class ProductController {
   async store(req, res) {
 
     // const userId = req.userId;
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ error: 'User id not provided' });
+    if (!owner_id) {
+      return res.status(400).json({ error: 'Owner id not provided' });
     }
 
     try {
-      let user = await User.findByPk(userId,
+      let user = await User.findByPk(owner_id,
         {
           include: [
             { association: 'shop' },
@@ -197,13 +197,13 @@ class ProductController {
   async update(req, res) {
 
     const id = req.params.id;
-    const { userId } = req.body;
+    const { owner_id } = req.body;
 
-    if (!id || !userId) {
-      return res.status(400).json({ error: 'Id or user id not provided' });
+    if (!id || !owner_id) {
+      return res.status(400).json({ error: 'Id or owner id not provided' });
     }
 
-    let user = await User.findByPk(userId,
+    let user = await User.findByPk(owner_id,
       {
         include: [
           { association: 'shop' },

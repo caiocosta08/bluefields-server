@@ -144,7 +144,7 @@ class FactoryController {
 
       await factory.destroy()
 
-      return res.status(200).json({ message: 'Factory removed successful' })
+      return res.status(200).json({ message: 'Factory removed successfully' })
     } catch (err) {
       return res.status(401).json({
         error: 'Error remove factory. ',

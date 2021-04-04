@@ -115,6 +115,7 @@ class DiscountCouponController {
   async store(req, res) {
 
     const { owner_id } = req.body;
+    
     if (!owner_id) {
       return res.status(400).json({ error: 'Owner id not provided' });
     }

@@ -81,7 +81,11 @@ class AdressController {
     }
 
     try {
-      const address = await Address.findByPk(id)
+      const address = await Address.findByPk(id,{
+        include: [
+          { association: 'shop' },
+        ]
+      })
 
       if (!address) {
         return res.status(401).json({ error: 'Address not found.' })

@@ -122,9 +122,9 @@ class ShopController {
 
   async update(req, res) {
 
-    const { email, oldpassword, owner_id } = req.body;
+    const {  owner_id, email } = req.body;
 
-    if (!email || !oldpassword || !owner_id) {
+    if ( !owner_id) {
       return res.status(400).json({ error: 'Email, owner id or old password not provided' });
     }
 
@@ -140,10 +140,6 @@ class ShopController {
       if (shopExists) {
         return res.status(400).json({ error: 'Email already exists.' })
       }
-    }
-
-    if (oldpassword && !(await shop.checkPassword(oldpassword))) {
-      return res.status(401).json({ error: 'Password does not match' });
     }
 
     try {

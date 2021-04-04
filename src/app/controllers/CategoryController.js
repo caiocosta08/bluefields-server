@@ -19,6 +19,8 @@ class CategoryController {
         })
       }
 
+      return res.status(200).json(categories)
+
     }catch (err){
       res.status(400).json({
         error: 'Error loading categories',
