@@ -10,7 +10,7 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', SubcategoryController.index);
-routes.post('/', SubcategoryController.store);
+routes.post('/new', SubcategoryController.store);
 routes.get('/:id', SubcategoryController.show);
 routes.put('/:id', SubcategoryController.update);
 routes.delete('/:id', SubcategoryController.destroy);
