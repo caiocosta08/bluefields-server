@@ -17,9 +17,6 @@ import UserController from '../app/controllers/UserController';
 
 const routes = new Router();
 
-//User register
-routes.post('/register/user',UserController.store);
-
 // User session
 routes.post('/session', UserSessionController.store);
 

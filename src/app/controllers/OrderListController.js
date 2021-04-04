@@ -153,7 +153,7 @@ class OrderListController {
 
   async update(req, res) {
 
-    const id = req.params.id;
+    const { id } = req.body;
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
@@ -161,11 +161,7 @@ class OrderListController {
 
     try {
 
-      const order = await OrderList.findByPk(id, {
-        include: [
-          { association: 'order' },
-        ]
-      });
+      const order = await OrderList.findOne({ where: { id } });
 
       if (!order) {
         return res.status(401).json({ error: 'order not found for user' })
@@ -177,6 +173,33 @@ class OrderListController {
     } catch (err) {
       return res.status(400).json({
         error: 'Update error',
+        message: String(err)
+      })
+    }
+  }
+
+  async destroy(req, res) {
+
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+
+      const order = await OrderList.findOne({ where: { id } });
+
+      if (!order) {
+        return res.status(401).json({ error: 'order not found for user' })
+      }
+
+      await order.destroy();
+
+      return res.json({ message: 'Order list removed successfull' })
+    } catch (err) {
+      return res.status(400).json({
+        error: 'Destroy error',
         message: String(err)
       })
     }

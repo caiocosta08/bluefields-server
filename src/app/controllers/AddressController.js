@@ -172,7 +172,7 @@ class AdressController {
 
   async update(req, res) {
 
-    const id = req.params.id;
+    const id = req.body.id;
 
 
     const address = await Address.findByPk(id);
@@ -194,7 +194,7 @@ class AdressController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
+    const id = req.body.id;
 
     try {
       const address = await Address.findOne({

@@ -14,6 +14,6 @@ routes.post('/get_by_id', FactoryController.getById);
 routes.post('/get_by_owner_id', FactoryController.getByOwnerId);
 routes.post('/register', FactoryController.store);
 routes.put('/update', FactoryController.update);
-routes.delete('/:id', FactoryController.destroy);
+routes.delete('/delete', FactoryController.destroy);
 
 export default routes;

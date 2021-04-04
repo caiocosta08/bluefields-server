@@ -15,7 +15,7 @@ routes.post('/get_all_by_owner_id', ProductController.getAllByOwnerId);
 routes.post('/get_all_by_shop_id', ProductController.getAllByShopId);
 routes.post('/new', ProductController.store);
 routes.get('/:id', ProductController.show);
-routes.put('/:id', ProductController.update);
-routes.delete('/:id', ProductController.destroy);
+routes.put('/update', ProductController.update);
+routes.delete('/delete', ProductController.destroy);
 
 export default routes;

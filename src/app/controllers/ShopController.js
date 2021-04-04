@@ -163,27 +163,18 @@ class ShopController {
 
   async update(req, res) {
 
-    const { owner_id, email } = req.body;
-
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Email, owner id or old password not provided' });
-    }
-
-    const shop = await Shop.findByPk(owner_id);
-
-    if (!shop) {
-      return res.status(401).json({ error: 'Shop not found.' })
-    }
-
-    if (email && (email !== shop.email)) {
-      const shopExists = await Shop.findOne({ where: { email } });
-
-      if (shopExists) {
-        return res.status(400).json({ error: 'Email already exists.' })
-      }
-    }
-
     try {
+      const { id } = req.body;
+
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
+      }
+
+      const shop = await Shop.findOne({ where: { id } });
+
+      if (!shop) {
+        return res.status(401).json({ error: 'Shop not found.' })
+      }
 
       const shopUpdated = await shop.update(req.body);
 
@@ -199,10 +190,10 @@ class ShopController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
+    const { id } = req.body;
 
     try {
-      const shop = await Shop.findByPk(id)
+      const shop = await Shop.findOne({ where: { id } })
 
       if (!shop) {
         return res.status(401).json({ error: 'Shop not found.' })

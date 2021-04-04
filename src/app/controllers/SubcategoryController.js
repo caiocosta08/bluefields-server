@@ -122,17 +122,15 @@ class SubcategoryController {
 
   async update(req, res) {
 
-    const id = req.params.id;
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!id || !owner_id) {
-      return res.status(400).json({ error: 'Id or owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
     const subcategory = await Subcategory.findOne({
       where: {
-        id,
-        owner_id,
+        id
       },
       include: [
         { association: 'owner' },
@@ -156,18 +154,16 @@ class SubcategoryController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!id || !owner_id) {
-      return res.status(400).json({ error: 'Id or owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
       const category = await Category.findOne({
         where: {
-          id,
-          owner_id,
+          id
         }
       });
 

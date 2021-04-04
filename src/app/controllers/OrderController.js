@@ -170,32 +170,18 @@ class OrderController {
 
   async update(req, res) {
 
-    const id = req.params.id;
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!owner_id || !id) {
-      return res.status(400).json({ error: 'Id or owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
 
     try {
 
-      const shop = await Shop.findOne(
-        {
-          where: { owner_id }
-        }
-      );
-
-      if (!shop) {
-        return res.status(400).json({
-          error: 'not associate Shop to user'
-        })
-      }
-
       const order = await Order.findOne({
         where: {
-          id,
-          shop_id: shop.id
+          id
         },
         include: [
           { association: 'orders_list' },
@@ -218,31 +204,17 @@ class OrderController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!owner_id || !id) {
-      return res.status(400).json({ error: 'Id or owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
 
-      const shop = await Shop.findOne(
-        {
-          where: { owner_id }
-        }
-      );
-
-      if (!shop) {
-        return res.status(400).json({
-          error: 'not associate Shop to user'
-        })
-      }
-
       const order = await Order.findOne({
         where: {
-          id,
-          shop_id: shop.id
+          id
         },
         include: [
           { association: 'orders_list' },

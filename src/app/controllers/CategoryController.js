@@ -160,12 +160,7 @@ class CategoryController {
 
   async update(req, res) {
 
-    const id = req.params.id;
-    const { owner_id } = req.body
-
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Owner id not provided' });
-    }
+    const { id } = req.body
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
@@ -173,8 +168,7 @@ class CategoryController {
 
     const category = await Category.findOne({
       where: {
-        id,
-        owner_id,
+        id
       },
       include: [
         { association: 'owner' },
@@ -198,12 +192,7 @@ class CategoryController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
-    const { owner_id } = req.body
-
-    if (!owner_id) {
-      return res.status(400).json({ error: 'User id not provided' });
-    }
+    const { id } = req.body
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
@@ -212,8 +201,7 @@ class CategoryController {
     try {
       const category = await Category.findOne({
         where: {
-          id,
-          owner_id,
+          id
         }
       });
 

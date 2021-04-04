@@ -163,26 +163,18 @@ class FactoryController {
 
   async update(req, res) {
 
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
     const factory = await Factory.findOne({
-      where: { owner_id }
+      where: { id }
     });
 
     if (!factory) {
       return res.status(401).json({ error: 'factory not found.' })
-    }
-
-    if (email && (email !== factory.email)) {
-      const factoryExists = await User.findOne({ where: { email } });
-
-      if (factoryExists) {
-        return res.status(400).json({ error: 'Email already exists.' })
-      }
     }
 
     try {
@@ -202,16 +194,16 @@ class FactoryController {
 
   async destroy(req, res) {
 
-    const { owner_id } = req.body;
+    const { id } = req.body;
 
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Owner id not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
 
       const factory = await Factory.findOne({
-        where: { owner_id }
+        where: { id }
       });
 
       await factory.destroy()

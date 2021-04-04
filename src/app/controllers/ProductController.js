@@ -4,8 +4,8 @@ import Subcategory from '../models/Subcategory';
 
 class ProductController {
 
-  async getAll(req, res){
-    try{
+  async getAll(req, res) {
+    try {
 
       let products = await Product.findAll(
         {
@@ -16,7 +16,7 @@ class ProductController {
         }
       );
 
-      if(products.length === 0){
+      if (products.length === 0) {
         return res.status(400).json({
           message: 'Not registers'
         })
@@ -24,7 +24,7 @@ class ProductController {
 
       return res.status(200).json(products)
 
-    }catch (err){
+    } catch (err) {
       res.status(400).json({
         error: 'Error loading products',
         message: String(err)
@@ -263,43 +263,17 @@ class ProductController {
 
   async update(req, res) {
 
-    const id = req.params.id;
-    const { owner_id } = req.body;
-
-    if (!id || !owner_id) {
-      return res.status(400).json({ error: 'Id or owner id not provided' });
-    }
-
-    let user = await User.findByPk(owner_id,
-      {
-        include: [
-          { association: 'shop' },
-        ]
-      }
-    );
-
-    user = user.toJSON();
-
-    if (!user.shop) {
-      return res.json({
-        error: 'Error loading associate user shop',
-        message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
-      })
-    }
-
-    const shop_id = user.shop.id;
-
-    const product = await Product.findByPk(id, {
-      where: {
-        shop_id
-      },
-      include: [
-        { association: 'shop' },
-        { association: 'subcategory' },
-      ]
-    });
-
     try {
+      const { id } = req.body;
+
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
+      }
+
+      let product = await Product.findOne({ where: { id } });
+
+      if (!product) return res.status(401).json({ error: 'Product not found.' })
+
       const productUpdated = await product.update(req.body);
 
       return res.json(productUpdated)
@@ -312,43 +286,14 @@ class ProductController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
-    const { userId } = req.body;
+    try {
+    const { id } = req.body;
 
-    if (!id || !userId) {
-      return res.status(400).json({ error: 'Id or userId not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
-    try {
-
-      let user = await User.findByPk(userId,
-        {
-          include: [
-            { association: 'shop' },
-          ]
-        }
-      );
-
-      user = user.toJSON();
-
-      if (!user.shop) {
-        return res.json({
-          error: 'Error loading associate user shop',
-          message: 'Usuário é do tipo salesman ou não possui Fábrica/loja cadastrada'
-        })
-      }
-
-      const shop_id = user.shop.id;
-
-      const product = await Product.findByPk(id, {
-        where: {
-          shop_id
-        },
-        include: [
-          { association: 'shop' },
-          { association: 'subcategory' },
-        ]
-      });
+      const product = await Product.findOne({ where: { id } });
 
       await product.destroy()
 

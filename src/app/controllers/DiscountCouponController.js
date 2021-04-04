@@ -214,27 +214,15 @@ class DiscountCouponController {
 
   async update(req, res) {
 
-    const id = req.params.id;
-    const { owner_id } = req.body
+    const { id } = req.body
 
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Owner id not provided' });
-    }
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
 
-      const shop = await Shop.findOne(
-        {
-          where: { owner_id }
-        }
-      );
-
-      const discountCoupon = await DiscountCoupon.findByPk(id, {
-        where: { shop_id: shop.id }
-      })
+      const discountCoupon = await DiscountCoupon.findOne({ where: { id } })
 
       if (!discountCoupon) {
         return res.status(400).json({
@@ -254,27 +242,14 @@ class DiscountCouponController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
-    const { owner_id } = req.body
+    const { id } = req.body
 
-    if (!owner_id) {
-      return res.status(400).json({ error: 'Owner id not provided' });
-    }
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
-
-      const shop = await Shop.findOne(
-        {
-          where: { owner_id }
-        }
-      );
-
-      const discountCoupon = await DiscountCoupon.findByPk(id, {
-        where: { shop_id: shop.id }
-      })
+      const discountCoupon = await DiscountCoupon.findOne({ where: { id } })
 
       if (!discountCoupon) {
         return res.status(400).json({
@@ -282,8 +257,7 @@ class DiscountCouponController {
         })
       }
 
-
-      discountCoupon.destroy()
+      await discountCoupon.destroy()
 
       return res.status(200).json({ message: 'Discount removed successfull' });
 

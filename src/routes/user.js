@@ -10,8 +10,9 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', UserController.index);
+routes.post('/register', UserController.store);
 routes.post('/get_by_id', UserController.getById);
 routes.put('/update', UserController.update);
-routes.delete('/:id', UserController.destroy);
+routes.delete('/delete', UserController.destroy);
 
 export default routes;

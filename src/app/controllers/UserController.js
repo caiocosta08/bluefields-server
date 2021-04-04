@@ -120,13 +120,13 @@ class UserController {
       const { email } = req.body;
 
       if (!email) {
-        return res.status(400).json({ error: 'eMAIL not provided' });
+        return res.status(400).json({ error: 'E-mail not provided' });
       }
 
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {
-        return res.status(400).json({ error: 'Email already exists.' })
+        return res.status(400).json({ error: 'E-mail already exists.' })
       }
 
       const user = await User.create(req.body);
@@ -150,13 +150,13 @@ class UserController {
 
   async update(req, res) {
 
-    const { email, oldpassword, userId } = req.body;
+    const { id } = req.body;
 
-    if (!email || !oldpassword) {
-      return res.status(400).json({ error: 'Email or old password not provided' });
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
     }
 
-    const user = await User.findByPk(userId);
+    const user = await User.findOne({ where: { id } });
 
     if (!user) {
       return res.status(401).json({ error: 'User not found.' })
@@ -190,14 +190,14 @@ class UserController {
   }
 
   async destroy(req, res) {
-    const id = req.params.id;
+    const { id } = req.body;
 
     if (!id) {
       return res.status(400).json({ error: 'Id not provided' });
     }
 
     try {
-      const user = await User.findByPk(id)
+      const user = await User.findOne({ where: { id } })
 
       if (!user) {
         return res.status(401).json({ error: 'User not found.' })

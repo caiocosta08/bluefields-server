@@ -13,7 +13,7 @@ routes.get('/get_all', SubcategoryController.index);
 routes.post('/new', SubcategoryController.store);
 routes.post('/get_by_id', SubcategoryController.getById);
 routes.get('/:id', SubcategoryController.show);
-routes.put('/:id', SubcategoryController.update);
-routes.delete('/:id', SubcategoryController.destroy);
+routes.put('/update', SubcategoryController.update);
+routes.delete('/delete', SubcategoryController.destroy);
 
 export default routes;
