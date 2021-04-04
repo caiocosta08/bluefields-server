@@ -3,7 +3,33 @@ import Shop from '../models/Shop';
 
 class DiscountCouponController {
 
-  async index(req, res) {
+  async getAll(req, res){
+    try{
+
+      const discounts = await DiscountCoupon.findAll({
+        include: [
+          { association: 'shop' },
+        ]
+      });
+  
+      if(discounts.length === 0){
+        return res.status(400).json({
+          message: 'not registers'
+        })
+      }
+
+      return res.status(200).json(discounts)
+
+    }catch (err){
+      return res.status(400).json({
+        error: 'error loading Discounts coupons',
+        message: String(err)
+      })
+      
+    }
+  }
+
+  async getAllWithOwnerId(req, res) {
     try {
 
       const { owner_id } = req.body

@@ -4,7 +4,36 @@ import Subcategory from '../models/Subcategory';
 
 class ProductController {
 
-  async index(req, res) {
+  async getAll(req, res){
+    try{
+
+      let products = await Product.findAll(
+        {
+          include: [
+            { association: 'shop' },
+            { association: 'subcategory' },
+          ]
+        }
+      );
+
+      if(products.length === 0){
+        return res.status(400).json({
+          message: 'Not registers'
+        })
+      }
+
+      return res.status(200).json(products)
+
+    }catch (err){
+      res.status(400).json({
+        error: 'Error loading products',
+        message: String(err)
+      })
+    }
+  }
+
+
+  async getAllWithOwnerId(req, res) {
 
     const { userId } = req.body
 

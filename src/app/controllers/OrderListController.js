@@ -1,7 +1,32 @@
 import OrderList from '../models/OrderList';
 import Product from '../models/Product';
 
-class OrderController {
+class OrderListController {
+
+  async getAll(req, res){
+    
+    try {
+
+      const orderList = await OrderList.findAll({
+        include: [
+          // { association: 'order'},
+        ]
+      });
+
+      if (orderList.length === 0) {
+        return res.status(400).json({ 
+          error: 'Not registers' 
+        })
+      }
+
+      return res.json(orderList);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading orderList ',
+        message: String(err)
+      });
+    }
+  }
 
   async show(req, res) {
     const id = req.params.id;
@@ -106,4 +131,4 @@ class OrderController {
 
 }
 
-export default new OrderController();
+export default new OrderListController();

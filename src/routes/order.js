@@ -9,8 +9,8 @@ const routes = new Router;
 //private routes
 routes.use(authMiddleware)
 
-routes.get('/', OrderController.index);
-routes.post('/', OrderController.store);
+routes.get('/get_all', OrderController.index);
+routes.post('/new', OrderController.store);
 routes.get('/:id', OrderController.show);
 routes.put('/:id', OrderController.update);
 routes.delete('/:id', OrderController.destroy);

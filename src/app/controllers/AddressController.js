@@ -3,7 +3,34 @@ import Shop from '../models/Shop';
 
 class AdressController {
 
-  async index(req, res) {
+  async getAll(req, res){
+
+    try{
+
+      const addresses = await Address.findAll({
+        include: [
+          { association: 'shop' },
+        ]
+      });
+
+      if(addresses.length === 0){
+        return res.status(400).json({
+          message: 'not registers'
+        })
+      }
+
+      return res.status(200).json(addresses)
+
+    }catch(err){
+      return res.status(400).json({
+        error: ' error loading addresses',
+        message: String(err),
+      })
+    }
+
+  }
+
+  async getWithOwnerId(req, res) {
     try {
 
       const { owner_id } = req.body

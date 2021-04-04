@@ -9,7 +9,7 @@ const routes = new Router;
 //private routes
 routes.use(authMiddleware)
 
-routes.get('/', UserController.index);
+routes.get('/get_all', UserController.index);
 routes.get('/data', UserController.show);
 routes.put('/update', UserController.update);
 routes.delete('/:id', UserController.destroy);

@@ -9,7 +9,7 @@ const routes = new Router;
 //private routes
 routes.use(authMiddleware)
 
-routes.get('/', ShopController.index);
+routes.get('/get_all', ShopController.index);
 routes.post('/register', ShopController.store);
 routes.get('/shop-data', ShopController.show);
 routes.put('/update', ShopController.update);

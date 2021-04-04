@@ -6,6 +6,12 @@ class FactoryController {
     try {
       const factories = await Factory.findAll();
 
+      if(factories.length === 0){
+        return res.json({
+          message: 'Not registers'
+        })
+      }
+
       return res.json(factories)
     } catch (err) {
       return res.status(400).json({

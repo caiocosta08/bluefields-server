@@ -1,4 +1,5 @@
 import Subcategory from '../models/Subcategory';
+import Category from '../models/Category';
 
 class SubcategoryController {
 
@@ -56,17 +57,33 @@ class SubcategoryController {
 
   async store(req, res) {
 
-    const newSubCategory = req.body;
+    let subcategoriesPersists = []; 
 
-    if (!newSubCategory) {
-      return res.status(400).json({ error: 'New subcategory not provided' });
+    const {category_id, subcategories } = req.body;
+
+    if (!category_id) {
+      return res.status(400).json({ error: 'Category Id not provided' });
     }
 
     try {
 
-      const subcategory = await Subcategory.create(newSubCategory);
+      const category = await Category.findByPk(category_id);
 
-      return res.json(subcategory)
+      if(!category){
+        return res.status(400).json({
+          error: 'Category not registered'
+        })
+      }
+
+      await Promise.all(subcategories.map (async (subcategory)=> {
+        var subcategorytmp = await Subcategory.create({ 
+          category_id,
+          name: subcategory
+        })
+        return subcategoriesPersists.push(subcategorytmp.toJSON())
+      }))
+
+      return await res.json(subcategoriesPersists)
     } catch (err) {
       return res.status(400).json({
         error: 'Registration failed!',

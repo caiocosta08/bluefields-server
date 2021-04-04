@@ -2,7 +2,34 @@ import Category from '../models/Category';
 
 class CategoryController {
 
-  async index(req, res) {
+  async getAll(req, res){
+    
+    try{
+
+      const categories = await Category.findAll({
+        include: [
+          { association: 'owner' },
+          { association: 'subcategories' },
+        ]
+      });
+  
+      if(categories.length === 0){
+        return res.status(400).json({
+          message: 'not registers'
+        })
+      }
+
+    }catch (err){
+      res.status(400).json({
+        error: 'Error loading categories',
+        message: String(err),
+      })
+    }
+
+
+  }
+
+  async getAllWithOwnerId(req, res) {
     try {
 
       const { owner_id } = req.body

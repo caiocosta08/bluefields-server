@@ -9,7 +9,7 @@ const routes = new Router;
 //private routes
 routes.use(authMiddleware)
 
-routes.get('/', SubcategoryController.index);
+routes.get('/get_all', SubcategoryController.index);
 routes.post('/', SubcategoryController.store);
 routes.get('/:id', SubcategoryController.show);
 routes.put('/:id', SubcategoryController.update);
