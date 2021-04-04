@@ -68,7 +68,7 @@ class ShopController {
     try {
       const { email, shop_url, cpf_cnpj } = req.body;
   
-      if (!email || shop_url || cpf_cnpj) {
+      if (!email || !shop_url || !cpf_cnpj) {
         return res.status(400).json({ error: 'Email, shop url or cpf/cnpj not provided' });
       }
 
