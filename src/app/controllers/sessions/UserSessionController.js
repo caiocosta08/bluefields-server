@@ -12,6 +12,7 @@ class UserSessionController {
       where: { email },
       include: [
         { association: 'shop' },
+        { association: 'factory' },
       ]
     });
 
@@ -23,17 +24,9 @@ class UserSessionController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, cpf_cnpj, shop, name } = user;
-
     return res.json({
-      user: {
-        id,
-        name,
-        cpf_cnpj,
-        email,
-        shop
-      },
-      token: generateToken({ id }),
+      user,
+      token: generateToken({ id: user.id }),
     })
 
   }

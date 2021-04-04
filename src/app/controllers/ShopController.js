@@ -125,6 +125,7 @@ class ShopController {
       }
 
 
+      //tirar essa regra, não sou obrigado a ter uma factory
       const factory = await Factory.findOne(
         {
           where: { owner_id },
@@ -140,6 +141,10 @@ class ShopController {
       const user = await User.findOne({
         where: { id: owner_id }
       });
+
+      if (!user) {
+        return res.status(400).json({ error: "User don't exist." })
+      }
 
       if (user.type != "factoryowner" && user.type != "salesman") return res.status(400).json({ error: 'Unauthorized user to create a shop.' })
 

@@ -24,12 +24,12 @@ routes.use('/shop', shopRoutes);
 routes.use('/address', addressRoutes);
 routes.use('/user', userRoutes);
 routes.use('/category', categoryRoutes);
+routes.use('/subcategory', subcategoriesRoutes);
 routes.use('/product', productRoutes);
 routes.use('/factory', factoryRoutes);
-routes.use('/subcategory', subcategoriesRoutes)
-routes.use('/discount_coupon', discountCouponsRoute)
-routes.use('/order', ordersRoute)
-routes.use('/order_list', orderListRoute)
+routes.use('/discount_coupon', discountCouponsRoute);
+routes.use('/order', ordersRoute);
+routes.use('/order_list', orderListRoute);
 
 
 
