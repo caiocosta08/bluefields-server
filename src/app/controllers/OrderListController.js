@@ -3,8 +3,8 @@ import Product from '../models/Product';
 
 class OrderListController {
 
-  async getAll(req, res){
-    
+  async getAll(req, res) {
+
     try {
 
       const orderList = await OrderList.findAll({
@@ -14,8 +14,8 @@ class OrderListController {
       });
 
       if (orderList.length === 0) {
-        return res.status(400).json({ 
-          error: 'Not registers' 
+        return res.status(400).json({
+          error: 'Not registers'
         })
       }
 
@@ -57,12 +57,66 @@ class OrderListController {
     }
   }
 
+  async getById(req, res) {
+    const id = req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+
+
+      const orderList = await OrderList.findByPk(id, {
+        include: [
+          // { association: 'order'},
+        ]
+      });
+
+      if (!orderList) {
+        return res.status(401).json({ error: 'orderList not found for user' })
+      }
+
+      return res.json(orderList);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading orderList ',
+        message: String(err)
+      });
+    }
+  }
+  async getAllByOrderId(req, res) {
+    const order_id = req.body.order_id;
+
+    if (!order_id) {
+      return res.status(400).json({ error: 'Order id not provided' });
+    }
+
+    try {
+
+      const orderList = await OrderList.findAll({
+        where: { order_id }
+      })
+
+      if (!orderList) {
+        return res.status(401).json({ error: 'orderList not found for user' })
+      }
+
+      return res.json(orderList);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading orderList ',
+        message: String(err)
+      });
+    }
+  }
+
   async store(req, res) {
 
     try {
 
       const { product_id, quantity } = req.body;
-  
+
       if (!product_id || !quantity) {
         return res.status(400).json({ error: 'Product id or quantity not provided' });
       }

@@ -56,6 +56,78 @@ class FactoryController {
     }
   }
 
+
+  async getById(req, res) {
+
+    try {
+
+      const { id } = req.body;
+
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
+      }
+
+      const factory = await Factory.findOne(
+        {
+          where: { id },
+          include: [
+            { association: 'owner' }
+          ]
+        }
+      )
+
+
+      if (!factory) {
+        return res.status(401).json({ error: 'factory not registered' })
+      }
+
+
+      return res.json(factory);
+    } catch (err) {
+      console.log(err)
+      return res.status(401).json({
+        error: 'Error loading factory. ',
+        message: String(err)
+      });
+    }
+  }
+
+
+  async getByOwnerId(req, res) {
+
+    try {
+
+      const { owner_id } = req.body;
+
+      if (!owner_id) {
+        return res.status(400).json({ error: 'Owner id not provided' });
+      }
+
+      const factory = await Factory.findOne(
+        {
+          where: { owner_id },
+          include: [
+            { association: 'owner' }
+          ]
+        }
+      )
+
+
+      if (!factory) {
+        return res.status(401).json({ error: 'factory not registered' })
+      }
+
+
+      return res.json(factory);
+    } catch (err) {
+      console.log(err)
+      return res.status(401).json({
+        error: 'Error loading factory. ',
+        message: String(err)
+      });
+    }
+  }
+
   async store(req, res) {
 
     try {

@@ -27,12 +27,12 @@ routes.use('/shop', shopRoutes);
 routes.use('/address', addressRoutes);
 routes.use('/user', userRoutes);
 routes.use('/category', categoryRoutes);
-routes.use('/products', productRoutes);
+routes.use('/product', productRoutes);
 routes.use('/factory', factoryRoutes);
-routes.use('/subcategories', subcategoriesRoutes)
-routes.use('/discount-coupons', discountCouponsRoute)
-routes.use('/orders', ordersRoute)
-routes.use('/order-list', orderListRoute)
+routes.use('/subcategory', subcategoriesRoutes)
+routes.use('/discount_coupon', discountCouponsRoute)
+routes.use('/order', ordersRoute)
+routes.use('/order_list', orderListRoute)
 
 
 

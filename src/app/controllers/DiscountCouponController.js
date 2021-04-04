@@ -3,16 +3,16 @@ import Shop from '../models/Shop';
 
 class DiscountCouponController {
 
-  async getAll(req, res){
-    try{
+  async getAll(req, res) {
+    try {
 
       const discounts = await DiscountCoupon.findAll({
         include: [
           { association: 'shop' },
         ]
       });
-  
-      if(discounts.length === 0){
+
+      if (discounts.length === 0) {
         return res.status(400).json({
           message: 'not registers'
         })
@@ -20,12 +20,12 @@ class DiscountCouponController {
 
       return res.status(200).json(discounts)
 
-    }catch (err){
+    } catch (err) {
       return res.status(400).json({
         error: 'error loading Discounts coupons',
         message: String(err)
       })
-      
+
     }
   }
 
@@ -112,10 +112,74 @@ class DiscountCouponController {
     }
   }
 
+
+  async getById(req, res) {
+    const id = req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+
+      const discountCoupon = await DiscountCoupon.findOne({
+        where: {
+          id
+        },
+        include: [
+          { association: 'shop' }
+        ]
+      });
+
+      if (!discountCoupon) {
+        return res.status(401).json({ error: 'discountCoupon not found.' })
+      }
+
+      return res.json(discountCoupon);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading discountCoupon ',
+        message: String(err)
+      });
+    }
+  }
+
+
+  async getAllByShopId(req, res) {
+    const shop_id = req.body.shop_id;
+
+    if (!shop_id) {
+      return res.status(400).json({ error: 'Shop id not provided' });
+    }
+
+    try {
+
+      const discountCoupon = await DiscountCoupon.findAll({
+        where: {
+          shop_id
+        },
+        include: [
+          { association: 'shop' }
+        ]
+      });
+
+      if (!discountCoupon) {
+        return res.status(401).json({ error: 'discountCoupon not found.' })
+      }
+
+      return res.json(discountCoupon);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading discountCoupon ',
+        message: String(err)
+      });
+    }
+  }
+
   async store(req, res) {
 
     const { owner_id } = req.body;
-    
+
     if (!owner_id) {
       return res.status(400).json({ error: 'Owner id not provided' });
     }

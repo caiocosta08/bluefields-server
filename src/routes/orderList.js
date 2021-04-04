@@ -10,6 +10,8 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', OrderListController.getAll);
+routes.post('/get_by_id', OrderListController.getById);
+routes.post('/get_all_by_order_id', OrderListController.getAllByOrderId);
 routes.post('/new', OrderListController.store);
 routes.get('/:id', OrderListController.show);
 routes.put('/:id', OrderListController.update);

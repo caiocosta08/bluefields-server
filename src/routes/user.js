@@ -10,7 +10,7 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', UserController.index);
-routes.get('/data', UserController.show);
+routes.post('/get_by_id', UserController.show);
 routes.put('/update', UserController.update);
 routes.delete('/:id', UserController.destroy);
 

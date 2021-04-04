@@ -33,7 +33,7 @@ class ProductController {
   }
 
 
-  async getAllWithOwnerId(req, res) {
+  async getAllByOwnerId(req, res) {
 
     const { owner_id } = req.body
 
@@ -61,6 +61,41 @@ class ProductController {
       }
 
       const shop_id = user.shop.id;
+
+      const products = await Product.findAll({
+        where: {
+          shop_id
+        },
+        include: [
+          { association: 'shop' },
+          { association: 'subcategory' },
+        ]
+      });
+
+      if (products.length === 0) {
+        return res.json({ message: 'Not registers' })
+      }
+
+      return res.json(products)
+
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json({
+        error: 'Error loading products',
+        message: String(err)
+      });
+    }
+  }
+
+  async getAllByShopId(req, res) {
+
+    const { shop_id } = req.body
+
+    if (!shop_id) {
+      return res.status(400).json({ error: 'Shop id not provided' });
+    }
+
+    try {
 
       const products = await Product.findAll({
         where: {
@@ -121,6 +156,38 @@ class ProductController {
         where: {
           id,
           shop_id
+        },
+        include: [
+          { association: 'shop' },
+          { association: 'subcategory' },
+        ]
+      });
+
+      if (!product) {
+        return res.json({ message: 'Not registers' })
+      }
+
+      return res.json(product)
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading product ',
+        message: String(err)
+      });
+    }
+  }
+
+  async getById(req, res) {
+    const id = req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+
+      const product = await Product.findOne({
+        where: {
+          id
         },
         include: [
           { association: 'shop' },

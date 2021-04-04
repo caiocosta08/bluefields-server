@@ -10,7 +10,8 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', AddressController.getAll);
-routes.get('/get_with_owner_id', AddressController.getWithOwnerId);
+routes.post('/get_by_id', AddressController.getById);
+routes.post('/get_all_by_shop_id', AddressController.getAllByShopId);
 routes.post('/new', AddressController.store);
 routes.get('/:id', AddressController.show);
 routes.put('/:id', AddressController.update);

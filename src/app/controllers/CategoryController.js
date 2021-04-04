@@ -31,7 +31,41 @@ class CategoryController {
 
   }
 
-  async getAllWithOwnerId(req, res) {
+  async getById(req, res) {
+    try {
+
+      const { id } = req.body
+
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
+      }
+
+      const categories = await Category.findAll({
+        where: {
+          id
+        },
+        include: [
+          { association: 'owner' },
+          { association: 'subcategories' },
+        ]
+      });
+
+      if (categories.length === 0) {
+        return res.json({
+          message: 'not registers'
+        })
+      }
+
+      return res.json(categories)
+    } catch (err) {
+      return res.status(400).json({
+        error: 'Error loading categories',
+        message: String(err)
+      });
+    }
+  }
+
+  async getAllByOwnerId(req, res) {
     try {
 
       const { owner_id } = req.body

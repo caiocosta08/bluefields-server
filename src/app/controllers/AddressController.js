@@ -3,9 +3,9 @@ import Shop from '../models/Shop';
 
 class AdressController {
 
-  async getAll(req, res){
+  async getAll(req, res) {
 
-    try{
+    try {
 
       const addresses = await Address.findAll({
         include: [
@@ -13,7 +13,7 @@ class AdressController {
         ]
       });
 
-      if(addresses.length === 0){
+      if (addresses.length === 0) {
         return res.status(400).json({
           message: 'not registers'
         })
@@ -21,7 +21,7 @@ class AdressController {
 
       return res.status(200).json(addresses)
 
-    }catch(err){
+    } catch (err) {
       return res.status(400).json({
         error: ' error loading addresses',
         message: String(err),
@@ -30,33 +30,18 @@ class AdressController {
 
   }
 
-  async getWithOwnerId(req, res) {
+  async getById(req, res) {
     try {
 
-      const { owner_id } = req.body
+      const { id } = req.body
 
-      if (!owner_id) {
-        return res.status(400).json({ error: 'Owner id not provided' });
-      }
-
-      const shop = await Shop.findOne(
-        {
-          where: { owner_id },
-          include: [
-            { association: 'address' },
-          ]
-        }
-      );
-
-      if (!shop) {
-        return res.status(400).json({
-          error: 'Shop not register for user'
-        })
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
       }
 
       const addresses = await Address.findAll({
         where: {
-          shop_id: shop.id
+          id
         },
         include: [
           { association: 'shop' },
@@ -81,11 +66,61 @@ class AdressController {
     }
 
     try {
-      const address = await Address.findByPk(id,{
+      const address = await Address.findByPk(id, {
         include: [
           { association: 'shop' },
         ]
       })
+
+      if (!address) {
+        return res.status(401).json({ error: 'Address not found.' })
+      }
+
+      return res.json(address);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading addresses. ',
+        message: String(err)
+      });
+    }
+  }
+  async getById(req, res) {
+    try {
+
+      const { id } = req.body
+
+      if (!id) {
+        return res.status(400).json({ error: 'Id not provided' });
+      }
+
+      const addresses = await Address.findAll({
+        where: {
+          id
+        },
+        include: [
+          { association: 'shop' },
+        ]
+      });
+
+      return res.json(addresses)
+    } catch (err) {
+      return res.status(400).json({
+        error: 'Error loading addresses',
+        message: String(err)
+      });
+    }
+  }
+
+  async getAllByShopId(req, res) {
+
+    const shop_id = req.body.shop_id;
+
+    if (!shop_id) {
+      return res.status(400).json({ error: 'Shop id not provided' });
+    }
+
+    try {
+      const address = await Address.findAll({ where: { shop_id } });
 
       if (!address) {
         return res.status(401).json({ error: 'Address not found.' })

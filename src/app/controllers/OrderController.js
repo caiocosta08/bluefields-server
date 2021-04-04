@@ -71,6 +71,68 @@ class OrderController {
     }
   }
 
+  async getById(req, res) {
+    const id = req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+
+      const order = await Order.findOne({
+        where: {
+          id
+        },
+        include: [
+          { association: 'orders_list' },
+        ]
+      });
+
+      if (!order) {
+        return res.status(401).json({ error: 'order not found for user' })
+      }
+
+      return res.json(order);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading order ',
+        message: String(err)
+      });
+    }
+  }
+
+  async getAllByShopId(req, res) {
+    const shop_id = req.body.shop_id;
+
+    if (!shop_id) {
+      return res.status(400).json({ error: 'Shop id not provided' });
+    }
+
+    try {
+
+      const order = await Order.findAll({
+        where: {
+          shop_id
+        },
+        include: [
+          { association: 'orders_list' },
+        ]
+      });
+
+      if (!order) {
+        return res.status(401).json({ error: 'order not found for user' })
+      }
+
+      return res.json(order);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading order ',
+        message: String(err)
+      });
+    }
+  }
+
   async store(req, res) {
     const { owner_id } = req.body;
 

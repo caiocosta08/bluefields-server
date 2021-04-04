@@ -25,7 +25,7 @@ class ShopController {
     }
   }
 
-  async show(req, res) {
+  async getByOwnerId(req, res) {
 
     const { owner_id } = req.body;
 
@@ -37,6 +37,39 @@ class ShopController {
       const shop = await Shop.findOne(
         {
           where: { owner_id },
+          include: [
+            { association: 'address' },
+            { association: 'owner' },
+          ]
+        }
+      );
+
+      if (!shop) {
+        return res.status(401).json({ error: 'shop not found.' })
+      }
+
+      return res.json(shop);
+    } catch (err) {
+      console.log(err)
+      return res.status(401).json({
+        error: 'Error loading shop. ',
+        message: String(err)
+      });
+    }
+  }
+
+  async getById(req, res) {
+
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+      const shop = await Shop.findOne(
+        {
+          where: { id },
           include: [
             { association: 'address' },
             { association: 'owner' },

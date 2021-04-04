@@ -10,7 +10,8 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', FactoryController.index);
-routes.get('/get_factory_with_owner_id', FactoryController.show);
+routes.post('/get_by_id', FactoryController.getById);
+routes.post('/get_by_owner_id', FactoryController.getByOwnerId);
 routes.post('/register', FactoryController.store);
 routes.put('/update', FactoryController.update);
 routes.delete('/:id', FactoryController.destroy);

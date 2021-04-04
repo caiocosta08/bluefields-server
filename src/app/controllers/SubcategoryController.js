@@ -55,6 +55,34 @@ class SubcategoryController {
     }
   }
 
+  async getById(req, res) {
+    const id = req.body.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+      const subcategory = await Subcategory.findByPk(id, {
+        include: [
+          { association: 'category' },
+          { association: 'products' },
+        ]
+      });
+
+      if (!subcategory) {
+        return res.status(401).json({ error: 'subcategory not found.' })
+      }
+
+      return res.json(subcategory);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Error loading subcategory ',
+        message: String(err)
+      });
+    }
+  }
+
   async store(req, res) {
 
     let subcategoriesPersists = []; 

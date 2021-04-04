@@ -10,7 +10,9 @@ const routes = new Router;
 routes.use(authMiddleware)
 
 routes.get('/get_all', ProductController.getAll);
-routes.get('/get_all_with_owner_id', ProductController.getAllWithOwnerId);
+routes.post('/get_by_id', ProductController.getById);
+routes.post('/get_all_by_owner_id', ProductController.getAllByOwnerId);
+routes.post('/get_all_by_shop_id', ProductController.getAllByShopId);
 routes.post('/new', ProductController.store);
 routes.get('/:id', ProductController.show);
 routes.put('/:id', ProductController.update);
