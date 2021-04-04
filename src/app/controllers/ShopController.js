@@ -1,5 +1,6 @@
 import Shop from '../models/Shop';
 import Factory from '../models/Factory';
+import User from '../models/User';
 
 class ShopController {
 
@@ -67,7 +68,7 @@ class ShopController {
 
     try {
       const { email, shop_url, cpf_cnpj } = req.body;
-  
+
       if (!email || !shop_url || !cpf_cnpj) {
         return res.status(400).json({ error: 'Email, shop url or cpf/cnpj not provided' });
       }
@@ -100,7 +101,14 @@ class ShopController {
         }
       )
 
-      req.body.factory_id = factory.id;
+      //temporary
+      req.body.factory_id = factory.id || 1;
+
+      const user = await User.findOne({
+        where: { id: owner_id }
+      });
+
+      if (user.type != "factoryowner" && user.type != "salesman") return res.status(400).json({ error: 'Unauthorized user to create a shop.' })
 
       const shop = await Shop.create(req.body);
 
@@ -122,9 +130,9 @@ class ShopController {
 
   async update(req, res) {
 
-    const {  owner_id, email } = req.body;
+    const { owner_id, email } = req.body;
 
-    if ( !owner_id) {
+    if (!owner_id) {
       return res.status(400).json({ error: 'Email, owner id or old password not provided' });
     }
 
