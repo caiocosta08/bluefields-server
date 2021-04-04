@@ -24,7 +24,7 @@ class UserController {
   }
 
   async show(req, res) {
-    
+
     const { userId } = req.body;
 
     if (!userId) {
@@ -36,7 +36,52 @@ class UserController {
         {
           where: { id: userId },
           include: [
-            { association: 'factory'}
+            { association: 'factory' }
+          ]
+        }
+      )
+
+      const shop = await Shop.findOne(
+        {
+          where: { owner_id: user.id },
+          include: [
+            { association: 'address' },
+          ]
+        }
+      );
+
+      if (!user) {
+        return res.status(401).json({ error: 'user not found.' })
+      }
+
+      user.password_hash = undefined;
+
+      return res.json({
+        ...user.toJSON(),
+        shop
+      });
+    } catch (err) {
+      console.log(err)
+      return res.status(401).json({
+        error: 'Error loading user. ',
+        message: String(err),
+      });
+    }
+  }
+  async getById(req, res) {
+
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Id not provided' });
+    }
+
+    try {
+      const user = await User.findOne(
+        {
+          where: { id },
+          include: [
+            { association: 'factory' }
           ]
         }
       )
@@ -73,7 +118,7 @@ class UserController {
 
     try {
       const { email } = req.body;
-  
+
       if (!email) {
         return res.status(400).json({ error: 'eMAIL not provided' });
       }
