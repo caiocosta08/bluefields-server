@@ -31,7 +31,7 @@ module.exports = {
           model: 'discount_coupons',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       },
 
@@ -63,7 +63,7 @@ module.exports = {
           model: 'shops',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       },
 

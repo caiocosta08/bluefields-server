@@ -59,7 +59,7 @@ module.exports = {
           model: 'shops',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       },
 
@@ -70,7 +70,7 @@ module.exports = {
           model: 'subcategories',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       },
       

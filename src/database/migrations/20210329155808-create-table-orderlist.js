@@ -20,7 +20,7 @@ module.exports = {
           model: 'products',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       },
 
@@ -31,7 +31,7 @@ module.exports = {
           model: 'orders',
           key: 'id',
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
       }
 

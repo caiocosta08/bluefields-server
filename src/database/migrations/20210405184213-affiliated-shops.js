@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('subcategories', {
+    return queryInterface.createTable('affiliated_shops', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -8,33 +8,33 @@ module.exports = {
         primaryKey: true
       },
 
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-
-      category_id: {
+      shop_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
-          model: 'categories',
+          model: 'shops',
           key: 'id',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE'
         },
       },
 
-      status: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-        defaultValue: true, 
+      factory_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references:{
+          model: 'users',
+          key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        },
       },
       
     })
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable('subcategories')
+    return queryInterface.dropTable('affiliated_shops')
   }
 };
 
