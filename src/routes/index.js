@@ -10,6 +10,7 @@ import subcategoriesRoutes from './subcategory';
 import discountCouponsRoute from './discountCoupon';
 import ordersRoute from './order';
 import orderListRoute from './orderList';
+import affiliateRoutes from './affiliate'
 
 import UserSessionController from '../app/controllers/sessions/UserSessionController';
 import UserController from '../app/controllers/UserController';
@@ -30,6 +31,7 @@ routes.use('/factory', factoryRoutes);
 routes.use('/discount_coupon', discountCouponsRoute);
 routes.use('/order', ordersRoute);
 routes.use('/order_list', orderListRoute);
+routes.use('/affiliate', affiliateRoutes)
 
 
 
