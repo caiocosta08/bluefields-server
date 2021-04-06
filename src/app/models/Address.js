@@ -21,6 +21,8 @@ class Address extends Model {
 
   static associate( models ){
     this.belongsTo( models.Shop, { foreignKey: 'shop_id', as: 'shop'})
+    this.belongsTo( models.User, { foreignKey: 'user_id', as: 'user'})
+    this.belongsTo( models.Factory, { foreignKey: 'factory_id', as: 'factory'})
   }
 
 }

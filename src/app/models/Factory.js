@@ -18,6 +18,8 @@ class Factory extends Model {
 
   static associate( models ){
     this.belongsTo( models.User, { foreignKey: 'owner_id', as: 'owner'} )
+    this.hasOne( models.Address, { foreignKey: 'factory_id', as: 'addresses'} )
+    this.belongsToMany( models.Shop, { foreignKey: 'factory_id', through: 'affiliated_shops', as: 'affiliates_shops'})
   }
 
 }

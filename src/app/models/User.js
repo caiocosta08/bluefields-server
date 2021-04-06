@@ -30,6 +30,7 @@ class User extends Model {
   static associate( models ){
     this.hasOne( models.Shop, { foreignKey: 'owner_id', as: 'shop'} )
     this.hasMany( models.Category, { foreignKey: 'owner_id', as: 'categories'} )
+    this.hasOne( models.Address, { foreignKey: 'user_id', as: 'addresses'} )
     this.hasOne( models.Factory, { foreignKey: 'owner_id', as: 'factory'} )
   }
 

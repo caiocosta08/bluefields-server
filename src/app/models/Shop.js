@@ -35,6 +35,7 @@ class Shop extends Model {
     this.hasMany( models.Product, { foreignKey: 'shop_id', as: 'products'})
     this.hasMany( models.DiscountCoupon, { foreignKey: 'shop_id', as: 'discount_coupons'})
     this.hasMany( models.Order, { foreignKey: 'shop_id', as: 'orders'})
+    this.belongsToMany( models.Factory, { foreignKey: 'shop_id', through: 'affiliated_shops', as: 'affiliates_factories'})
   }
 
   // async checkPassword(password){
