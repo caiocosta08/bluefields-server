@@ -9,6 +9,7 @@ class UserController {
       const users = await User.findAll(
         {
           include: [
+            { association: 'factory' },
             { association: 'shop' },
           ]
         }
@@ -36,7 +37,8 @@ class UserController {
         {
           where: { id: userId },
           include: [
-            { association: 'factory' }
+            { association: 'factory' },
+            { association: 'shop' },
           ]
         }
       )

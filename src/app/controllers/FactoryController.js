@@ -132,7 +132,7 @@ class FactoryController {
 
     try {
 
-      const { owner_id, email } = req.body
+      const { owner_id, email, cpf_cnpj } = req.body
 
       if (!owner_id) {
         return res.status(400).json({ error: 'Owner id not provided' });
@@ -146,6 +146,12 @@ class FactoryController {
 
       if (factoryExists) {
         return res.status(400).json({ error: 'Email already exists.' })
+      }
+      
+      const cpf_cnpjExists = await Factory.findOne({ where: { cpf_cnpj } });
+
+      if (cpf_cnpjExists) {
+        return res.status(400).json({ error: 'CPF or CNPJ already exists' })
       }
 
       const factory = await Factory.create(req.body);
