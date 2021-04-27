@@ -104,6 +104,7 @@ class ProductController {
         include: [
           { association: 'shop' },
           { association: 'subcategory' },
+          { association: 'category' },
         ]
       });
 

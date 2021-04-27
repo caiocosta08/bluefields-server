@@ -111,7 +111,7 @@ class AdressController {
     }
   }
 
-  async getAllByShopId(req, res) {
+  async getByShopId(req, res) {
 
     const shop_id = req.body.shop_id;
 

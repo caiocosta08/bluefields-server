@@ -25,6 +25,7 @@ class Product extends Model {
   static associate( models ){
     this.belongsTo( models.Shop, { foreignKey: 'shop_id', as: 'shop'})
     this.belongsTo( models.Subcategory, { foreignKey: 'subcategory_id', as: 'subcategory'})
+    this.belongsTo( models.Category, { foreignKey: 'category_id', as: 'category'})
     this.hasMany( models.OrderList, { foreignKey: 'product_id', as: 'orders_lists'})
   }
 

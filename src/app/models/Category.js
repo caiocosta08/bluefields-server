@@ -5,6 +5,7 @@ class Category extends Model {
     super.init({
       name: Sequelize.STRING,
       status: Sequelize.BOOLEAN,
+      description: Sequelize.STRING
     },
     {
       sequelize,
@@ -18,6 +19,7 @@ class Category extends Model {
   static associate( models ){
     this.belongsTo( models.User, { foreignKey: 'owner_id', as: 'owner'})
     this.hasMany( models.Subcategory, { foreignKey: 'category_id', as: 'subcategories'})
+    // this.hasMany( models.Category, { foreignKey: 'category_id', as: 'categories'})
   }
 
 }
