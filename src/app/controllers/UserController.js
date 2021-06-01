@@ -1,19 +1,11 @@
 import { generateToken } from '../../utils/auth';
 import User from '../models/User';
-import Shop from '../models/Shop'
 
 class UserController {
 
   async index(req, res) {
     try {
-      const users = await User.findAll(
-        {
-          include: [
-            { association: 'factory' },
-            { association: 'shop' },
-          ]
-        }
-      );
+      const users = await User.findAll();
 
       return res.json(users)
     } catch (err) {
@@ -36,19 +28,12 @@ class UserController {
       const user = await User.findOne(
         {
           where: { id: userId },
-          include: [
-            { association: 'factory' },
-            { association: 'shop' },
-          ]
         }
       )
 
       const shop = await Shop.findOne(
         {
           where: { owner_id: user.id },
-          include: [
-            { association: 'address' },
-          ]
         }
       );
 
@@ -82,18 +67,12 @@ class UserController {
       const user = await User.findOne(
         {
           where: { id },
-          include: [
-            { association: 'factory' }
-          ]
         }
       )
 
       const shop = await Shop.findOne(
         {
           where: { owner_id: user.id },
-          include: [
-            { association: 'address' },
-          ]
         }
       );
 

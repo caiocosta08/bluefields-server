@@ -19,26 +19,6 @@ module.exports = {
         unique: true
       },
 
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-
-      cpf_cnpj: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        unique: true
-      },
-
-      phone:{
-        type: Sequelize.STRING,
-      },
-
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      }
-      
     })
   },
 

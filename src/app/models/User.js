@@ -7,11 +7,6 @@ class User extends Model {
     super.init({
       name: Sequelize.STRING,
       email: Sequelize.STRING,
-      password: Sequelize.VIRTUAL,
-      password_hash: Sequelize.STRING,
-      cpf_cnpj: Sequelize.STRING,
-      phone: Sequelize.STRING,
-      type: Sequelize.STRING,
     },
     {
       sequelize,
@@ -25,13 +20,6 @@ class User extends Model {
     });
 
     return this;
-  }
-
-  static associate( models ){
-    this.hasOne( models.Shop, { foreignKey: 'owner_id', as: 'shop'} )
-    this.hasMany( models.Category, { foreignKey: 'owner_id', as: 'categories'} )
-    this.hasOne( models.Address, { foreignKey: 'user_id', as: 'addresses'} )
-    this.hasOne( models.Factory, { foreignKey: 'owner_id', as: 'factory'} )
   }
 
   async checkPassword(password){
