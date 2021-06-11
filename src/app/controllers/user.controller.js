@@ -1,5 +1,5 @@
 import { generateToken } from '../../utils/auth';
-import User from '../models/User';
+import User from '../models/user.model';
 
 class UserController {
 

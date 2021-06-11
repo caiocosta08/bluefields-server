@@ -1,11 +1,12 @@
 {
-  "name": "bihands-back-end",
+  "name": "Bluefields Server",
   "version": "1.0.0",
   "main": "server.js",
-  "author": "Acutis Tecnologia",
+  "author": "Byou",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node ./src/server.js"
+    "start": "babel-node ./src/server.js",
+    "dev": "nodemon --exec babel-node ./src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
