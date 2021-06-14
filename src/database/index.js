@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 
 import User from '../app/models/user.model';
 import FormResponse from '../app/models/formResponse.model';
+import Tbb7FormResponse from '../app/models/tbb7FormResponse.model';
 import Information from '../app/models/information.model';
 
 import databaseConfig from '../config/database';
@@ -9,6 +10,7 @@ import databaseConfig from '../config/database';
 const models = [
    User,
    FormResponse,
+   Tbb7FormResponse,
    Information,
 ]
 
