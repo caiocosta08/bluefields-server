@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.32)
 # Base de Dados: bluefields_db
-# Tempo de Geração: 2021-06-17 15:16:25 +0000
+# Tempo de Geração: 2021-06-17 16:26:59 +0000
 # ************************************************************
 
 
@@ -92,7 +92,7 @@ VALUES
 	(23,'tbb7_benefit_icon_url','https://bluefields.s3.us-east-2.amazonaws.com/images/icon-connection.png','9','2021-06-12 05:23:24','2021-06-12 05:23:24'),
 	(24,'tbb7_benefit_desc','Acesso a capital. Somos próximos das principais redes de investidores-anjos e fundos de Venture\nCapital no Brasil e no mundo, e adoramos recomendar as melhores startups para nossos\ninvestidores.','9','2021-06-12 05:23:24','2021-06-12 05:23:24'),
 	(25,'tbb7_main_title','Biodigital Startups acelera e conecta por um Brasil mais inovador','1','2021-06-12 05:29:55','2021-06-12 05:29:55'),
-	(26,'tbb7_main_desc','Vamos selecionar até 20 startups para acelerar e crescer junto com algumas das principais empresas dos setores da convergência biodigital (saúde, alimentos e agronegócio).','1','2021-06-12 05:30:54','2021-06-12 05:30:54'),
+	(26,'tbb7_main_desc','Vamos selecionar até 20 startups para acelerar e crescer junto com algumas das principais empresas dos setores da convergência biodigital (saúde, alimentos, agronegócio e tecnologias industriais).','1','2021-06-12 05:30:54','2021-06-12 05:30:54'),
 	(27,'tbb7_section_two_title','Quem está nessa?','1','2021-06-12 05:31:46','2021-06-12 05:31:46'),
 	(28,'tbb7_section_two_desc','Neste programa de aceleração e inovação aberta, a Bluefields Aceleradora reúne startups e grandes\nempresas para fomentar os setores da convergência biodigital no Brasil.','1','2021-06-12 05:32:39','2021-06-12 05:32:39'),
 	(29,'be_facilitator_title','SEJA UM FACILITADOR','1','2021-06-14 11:30:37','2021-06-14 11:30:37'),
